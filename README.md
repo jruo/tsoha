@@ -6,4 +6,4 @@ Tietokantasovellus
 * [Työn dokumentaatio](https://github.com/jruo/tsoha/blob/master/doc/dokumentaatio.pdf?raw=true)
 
 #### Työn aihe
-aihe
+Keskustelufoorumi - [Aihelinkki](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Keskustelufoorumi.html)
