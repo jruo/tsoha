@@ -10,7 +10,7 @@ echo '<h1>Lista kaikkien käyttäjien käyttäjänimistä</h1>';
 echo '<ul>';
 
 foreach ($results as $row) {
-    echo '<li>' . $row['username'] . '</ul>';
+    echo '<li>' . $row['username'] . '</li>';
 }
 
 echo '</ul>';
