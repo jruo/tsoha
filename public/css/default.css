@@ -1,0 +1,11 @@
+body {
+    background-color: #d7dfe4;
+}
+
+.page-header h1 {
+    font-weight: bold;
+}
+
+.container {
+    background-color: white;
+}
