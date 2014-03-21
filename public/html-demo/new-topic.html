@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Uusi viestiketju</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../css/default.css">
+    </head>
+    <body>
+        <div class="forum-top">
+            <div class="container">
+                <div class="forum-nav">
+                    <a class="forum-top-item" href="/tsoha/html-demo/">Etusivu</a>
+                    <a class="forum-top-item" href="/tsoha/html-demo/new-topic.html">Aloita uusi viestiketju</a>
+                    <a class="forum-top-item" href="/tsoha/html-demo/search.html">Hae</a>
+                    <a class="forum-top-item" href="/tsoha/html-demo/admin.html">Ylläpito</a>
+                </div>
+                <div class="forum-right">
+                    <span class="forum-top-item">Tervetuloa,</span>
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="forum-top-item" href="#">Matti Meikäläinen <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/tsoha/html-demo/profile.html">Näytä profiili</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Kirjaudu ulos</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="forum-clear"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="page-header">
+                <h1>Aloita uusi viestiketju</h1>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form role="form" method="post" action="#">
+                        <div class="form-group">
+                            <label for="inputTopicLocation">Viestiketjun alue</label>
+                            <select id="inputTopicLocation" class="form-control">
+                                <option>Julkiset viestiketjut</option>
+                                <option>Sisäiset viestiketjut</option>
+                                <option>Ryhmän "eksklusiivinen ryhmä" viestiketjut</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="inputTitle">Viestiketjun otsikko</label>
+                            <input required type="text" class="form-control" id="inputTitle" placeholder="Otsikko">
+                        </div>
+                        <div class="form-group">
+                            <label for="inputContent">Viesti</label>
+                            <textarea required class="form-control" id="inputContent" rows="10"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-default">Lähetä</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+    </body>
+</html>

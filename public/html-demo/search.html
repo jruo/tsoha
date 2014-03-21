@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Haku</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="../css/bootstrap.min.css">
+        <link rel="stylesheet" href="../css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="../css/default.css">
+    </head>
+    <body>
+        <div class="forum-top">
+            <div class="container">
+                <div class="forum-nav">
+                    <a class="forum-top-item" href="/tsoha/html-demo/">Etusivu</a>
+                    <a class="forum-top-item" href="/tsoha/html-demo/new-topic.html">Aloita uusi viestiketju</a>
+                    <a class="forum-top-item" href="/tsoha/html-demo/search.html">Hae</a>
+                    <a class="forum-top-item" href="/tsoha/html-demo/admin.html">Ylläpito</a>
+                </div>
+                <div class="forum-right">
+                    <span class="forum-top-item">Tervetuloa,</span>
+                    <div class="dropdown">
+                        <a data-toggle="dropdown" class="forum-top-item" href="#">Matti Meikäläinen <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="/tsoha/html-demo/profile.html">Näytä profiili</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Kirjaudu ulos</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="forum-clear"></div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="page-header">
+                <h1>Haku</h1>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <form class="form-horizontal" role="form" method="post" action="#">
+                        <div class="form-group">
+                            <label for="inputQuery" class="col-sm-2 control-label">Hakusana</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="inputQuery" placeholder="Hakusana">
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="inputTimeFilter" class="col-sm-2 control-label">Hae ajalta</label>
+                            <div class="col-sm-10">
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <select>
+                                            <option value="none">Mikä tahansa</option>
+                                            <option value="before">Ennen</option>
+                                            <option value="after">Jälkeen</option>
+                                        </select>
+                                    </span>
+                                    <input type="text" id="inputTimeFilter" class="form-control" placeholder="DD.MM.YYYY HH:MM">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="inputMemberFilter" class="col-sm-2 control-label">Hae käyttäjältä</label>
+                            <div class="col-sm-10">
+                                <input type="text" id="inputMemberFilter" class="form-control" placeholder="Nimi">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <div class="col-sm-offset-2 col-sm-10">
+                                <button type="submit" class="btn btn-default">Hae</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="../js/bootstrap.min.js"></script>
+    </body>
+</html>

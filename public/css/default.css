@@ -15,8 +15,13 @@
 
 .forum-nav {
     display: inline;
+    float:left;
 }
 
 .forum-right {
     float: right;
+}
+
+.forum-clear {
+    clear: both;
 }
