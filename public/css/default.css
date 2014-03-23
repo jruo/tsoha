@@ -30,6 +30,19 @@
     font-size: 90%;
 }
 
+.forum-profile-info-panel .row {
+    padding: 5px 0 5px 0;
+}
+
+.forum-profile-info-header {
+    font-weight: bold;
+    text-align: right;
+}
+
+.panel-primary .forum-post-heading a {
+    color: white;
+}
+
 .forum-right {
     float: right;
 }
