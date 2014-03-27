@@ -10,11 +10,11 @@ defined('INDEX') or die;
 class Request {
 
     public function getGetData($var) {
-        return \filter_input(\INPUT_GET, $var);
+        return filter_input(INPUT_GET, $var);
     }
 
     public function getPostData($var) {
-        return \filter_input(\INPUT_POST, $var);
+        return filter_input(INPUT_POST, $var);
     }
 
     public function getAction() {

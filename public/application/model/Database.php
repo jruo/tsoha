@@ -14,8 +14,8 @@ class Database {
 
     public function __construct() {
         try {
-            $this->pdo = new \PDO(DB_DNS);
-        } catch (\PDOException $e) {
+            $this->pdo = new PDO(DB_DNS);
+        } catch (PDOException $e) {
             die('Database connection failed');
         }
     }

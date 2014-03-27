@@ -55,7 +55,7 @@ class User {
         $params = array($username);
         $results = $this->database->query($query, $params);
 
-        if (\count($results) == 0) {
+        if (count($results) == 0) {
             return false;
         }
 
