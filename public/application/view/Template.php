@@ -34,7 +34,8 @@ class Template implements Renderable {
                     <a class="forum-top-item" href="?action=admin">Ylläpito</a>
                 </div>
                 <div class="forum-right">
-                    <span class="forum-top-item">Tervetuloa,</span>
+                    <a class="forum-top-item" href="?action=login">Kirjaudu sisään</a>
+                    <!--span class="forum-top-item">Tervetuloa, </span>
                     <div class="dropdown">
                         <a data-toggle="dropdown" class="forum-top-item" href="#">Matti Meikäläinen <span class="caret"></span></a>
                         <ul class="dropdown-menu">
@@ -42,7 +43,7 @@ class Template implements Renderable {
                             <li class="divider"></li>
                             <li><a href="?action=logout">Kirjaudu ulos</a></li>
                         </ul>
-                    </div>
+                    </div--!>
                 </div>
                 <div class="forum-clear"></div>
             </div>
