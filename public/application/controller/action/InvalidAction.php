@@ -9,7 +9,7 @@ defined('INDEX') or die;
 class InvalidAction extends AbstractAction {
 
     public function excute() {
-
+        
     }
 
     public function getView() {

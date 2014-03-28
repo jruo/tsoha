@@ -16,7 +16,8 @@ class Logout extends AbstractAction {
 
     public function excute() {
         $this->user->logout();
-        header('location:?');
+        $baseURL = BASEURL;
+        header("location:{$baseURL}/");
         die;
     }
 

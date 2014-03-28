@@ -31,13 +31,14 @@ class Login extends AbstractAction {
             return; // credentials were not sent, do nothing (just display the form)
         }
 
+        $baseURL = BASEURL;
         if ($this->user->login($username, $password)) {
             // login succesful, redirect to home page
-            header('location:?');
+            header("location:{$baseURL}/");
             die;
         } else {
             // login failed, redirect to login form with an error
-            header('location:?action=login&error=1');
+            header("location:{$baseURL}/?action=login&error=1");
             die;
         }
     }

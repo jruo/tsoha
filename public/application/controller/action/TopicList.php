@@ -21,6 +21,7 @@ class TopicList extends AbstractAction {
         $this->addPublicTopics();
         if ($this->user->isLoggedIn()) {
             $this->addPrivateTopics();
+            $this->addPrivateMemberGroupTopics();
         }
     }
 
@@ -32,6 +33,10 @@ class TopicList extends AbstractAction {
     private function addPrivateTopics() {
         $this->view->addTopicGroup(TopicListView::PRIVATE_GROUP);
         $this->view->addTopic(TopicListView::PRIVATE_GROUP, 'Sisäisen viestiketjun otsikko', '1', '1', 'admin', '0', '27.3.2014 klo 19:25', null);
+    }
+
+    private function addPrivateMemberGroupTopics() {
+
     }
 
     public function getView() {

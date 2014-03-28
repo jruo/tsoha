@@ -3,6 +3,7 @@
 namespace application\controller\action;
 
 use application\controller\Request;
+use application\model\User;
 
 defined('INDEX') or die;
 
@@ -12,22 +13,24 @@ defined('INDEX') or die;
 class ActionHandler {
 
     private $request;
+    private $user;
     private $actions;
     private $defaultAction;
     private $errorAction;
 
     /**
-     * @param \application\controller\Request $request User's request
+     * @param Request $request User's request
      */
-    function __construct(Request $request) {
+    function __construct(Request $request, User $user) {
         $this->request = $request;
+        $this->user = $user;
         $this->actions = array();
     }
 
     /**
      * Adds a new action
      * @param string $actionString Name of the action
-     * @param \application\controller\action\AbstractAction $action Action
+     * @param AbstractAction $action Action
      */
     public function addAction($actionString, AbstractAction $action) {
         $this->actions[$actionString] = $action;
@@ -35,7 +38,7 @@ class ActionHandler {
 
     /**
      * Sets the default action
-     * @param \application\controller\action\AbstractAction $action Default action
+     * @param AbstractAction $action Default action
      */
     public function setDefaultAction(AbstractAction $action) {
         $this->defaultAction = $action;
@@ -43,7 +46,7 @@ class ActionHandler {
 
     /**
      * Sets the error action
-     * @param \application\controller\action\AbstractAction $errorAction Error Action
+     * @param AbstractAction $errorAction Error Action
      */
     public function setErrorAction(AbstractAction $errorAction) {
         $this->errorAction = $errorAction;
@@ -53,12 +56,19 @@ class ActionHandler {
      * Executes the requested action
      */
     public function executeRequestedAction() {
+        $action = $this->getRequestedAction();
+        if ($action->requireLogin() && !$this->user->isLoggedIn()) {
+            // The user is not logged in, but the requested actions requires that
+            $baseURL = BASEURL;
+            header("location:{$baseURL}/?action=login&message=Tämä toiminto vaatii kirjautumisen");
+            die;
+        }
         $this->getRequestedAction()->excute();
     }
 
     /**
      * Returns the requested action
-     * @return \application\controller\action\AbstractAction Requested action
+     * @return AbstractAction Requested action
      */
     public function getRequestedAction() {
         $action = $this->request->getAction();

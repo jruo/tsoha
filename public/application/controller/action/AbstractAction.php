@@ -18,7 +18,7 @@ abstract class AbstractAction {
     public abstract function getView();
 
     /**
-     * Checks whether this actions needs the user to be logged in or not
+     * Checks is this action needs the user to be logged in
      * @return boolean
      */
     public abstract function requireLogin();

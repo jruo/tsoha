@@ -5,7 +5,7 @@ namespace application\controller;
 defined('INDEX') or die;
 
 /**
- * User's request
+ * The user's request
  */
 class Request {
 

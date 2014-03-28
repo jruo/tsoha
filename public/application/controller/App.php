@@ -28,8 +28,8 @@ class App {
 
         $this->database = new Database();
         $this->request = new Request();
-        $this->actionHandler = new ActionHandler($this->request);
         $this->user = new User($this->database);
+        $this->actionHandler = new ActionHandler($this->request, $this->user);
 
         $this->addActions();
         $this->actionHandler->executeRequestedAction();
