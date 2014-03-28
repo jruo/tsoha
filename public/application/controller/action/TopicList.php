@@ -26,7 +26,7 @@ class TopicList extends AbstractAction {
 
     private function addPublicTopics() {
         $this->view->addTopicGroup(TopicListView::PUBLIC_GROUP);
-        $this->view->addTopic(TopicListView::PUBLIC_GROUP, 'Viestiketjun otsikko', '1', '1', 'admin', '0', '27.3.2014 klo 18:01', '1');
+        $this->view->addTopic(TopicListView::PUBLIC_GROUP, 'Viestiketjun otsikko', '1', '1', 'admin', '0', '27.3.2014 klo 18:02', '1');
     }
 
     private function addPrivateTopics() {
