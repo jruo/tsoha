@@ -28,7 +28,7 @@ class Password {
      * @return array hash and its salt
      */
     public function generateHashAndSalt() {
-        $salt = base64_encode(mcrypt_create_iv(40, MCRYPT_DEV_URANDOM));
+        $salt = \hash('sha256', mt_rand() . mt_rand() . mt_rand());
         $hash = $this->hash($salt);
         return array($hash, $salt);
     }

@@ -2,7 +2,8 @@ create table Member (
     memberID serial primary key,
     username varchar(20) not null unique,
     password varchar(128) not null,
-    salt varchar(128) not null
+    salt varchar(128) not null,
+    admin int not null default 0
 );
 
 create table Topic (

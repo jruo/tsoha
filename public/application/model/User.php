@@ -33,15 +33,15 @@ class User {
     }
 
     public function isAdmin() {
-        return $_SESSION['admin'] == 1;
+        return $this->loggedIn && $_SESSION['admin'] == 1;
     }
 
     public function getUserID() {
-        return $_SESSION['userid'];
+        return $this->loggedIn ? $_SESSION['userid'] : null;
     }
 
     public function getUsername() {
-        return $_SESSION['username'];
+        return $this->loggedIn ? $_SESSION['username'] : null;
     }
 
     /**
@@ -51,18 +51,21 @@ class User {
      * @return boolean true if succeeded, false otherwise
      */
     public function login($username, $password) {
-        $query = 'SELECT memberID, password, salt, admin FROM Member WHERE username=?;';
+        session_regenerate_id(true);
+
+        $query = 'SELECT memberid, password, salt, admin FROM Member WHERE username=?;';
         $params = array($username);
         $results = $this->database->query($query, $params);
 
         if (count($results) == 0) {
+            echo "zero rows";
             return false;
         }
 
         $row = $results[0];
         $passwordHashFromDB = $row['password'];
         $saltFromDB = $row['salt'];
-        $userID = $row['memberID'];
+        $userID = $row['memberid'];
         $admin = $row['admin'];
 
         $givenPassword = new Password($password);

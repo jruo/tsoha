@@ -3,11 +3,13 @@
 namespace application\controller;
 
 use application\controller\action\ActionHandler;
+use application\controller\action\InvalidAction;
 use application\controller\action\Login;
+use application\controller\action\Logout;
+use application\controller\action\TopicList;
 use application\model\Database;
 use application\model\User;
 use application\view\Template;
-use application\view\TopicListing;
 
 defined('INDEX') or die;
 
@@ -29,12 +31,25 @@ class App {
         $this->actionHandler = new ActionHandler($this->request);
         $this->user = new User($this->database);
 
-        $template = new Template(new TopicListing());
-        $template->render();
+        $this->addActions();
+        $this->actionHandler->executeRequestedAction();
+
+        $this->renderPage();
     }
 
     private function addActions() {
-        $this->actionHandler->addAction('login', new Login($this->request));
+        $this->actionHandler->setDefaultAction(new TopicList());
+        $this->actionHandler->setErrorAction(new InvalidAction());
+
+        $this->actionHandler->addAction('login', new Login($this->request, $this->user));
+        $this->actionHandler->addAction('logout', new Logout($this->user));
+    }
+
+    private function renderPage() {
+        $template = new Template($this->actionHandler->getRequestedAction()->getView());
+        $template->setAdmin($this->user->isAdmin());
+        $template->setUser($this->user->getUsername());
+        $template->render();
     }
 
 }
