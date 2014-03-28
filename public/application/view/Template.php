@@ -25,6 +25,7 @@ class Template implements Renderable {
     public function render() {
         $adminLink = '';
         $userPanel = '<a class="forum-top-item" href="?action=login">Kirjaudu sisään</a>';
+        $baseURL = BASEURL;
 
         if ($this->showAdminLink) {
             $adminLink = '
@@ -52,17 +53,17 @@ HTML;
         <title>{$this->page->getTitle()}</title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="./css/bootstrap.min.css">
-        <link rel="stylesheet" href="./css/bootstrap-theme.min.css">
-        <link rel="stylesheet" href="./css/default.css">
+        <link rel="stylesheet" href="{$baseURL}/css/bootstrap.min.css">
+        <link rel="stylesheet" href="{$baseURL}/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{$baseURL}/css/default.css">
     </head>
     <body>
         <div class="forum-top">
             <div class="container">
                 <div class="forum-nav">
-                    <a class="forum-top-item" href="?">Etusivu</a>
-                    <a class="forum-top-item" href="?action=newtopic">Aloita uusi viestiketju</a>
-                    <a class="forum-top-item" href="?action=search">Hae</a>
+                    <a class="forum-top-item" href="{$baseURL}/">Etusivu</a>
+                    <a class="forum-top-item" href="{$baseURL}/?action=newtopic">Aloita uusi viestiketju</a>
+                    <a class="forum-top-item" href="{$baseURL}/?action=search">Hae</a>
                     {$adminLink}
                 </div>
                 <div class="forum-right">
@@ -83,7 +84,7 @@ HTML;
 
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="./js/bootstrap.min.js"></script>
+        <script src="{$baseURL}/js/bootstrap.min.js"></script>
     </body>
 </html>
 HTML;

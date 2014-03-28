@@ -44,7 +44,8 @@ class Login extends AbstractAction {
 
     public function getView() {
         $view = new LoginView();
-        $view->displayError($this->request->getGetData('error') == 1);
+        $view->setLoginFailed($this->request->getGetData('error') == 1);
+        $view->setMessage($this->request->getGetData('message'));
         return $view;
     }
 

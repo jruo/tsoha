@@ -58,7 +58,6 @@ class User {
         $results = $this->database->query($query, $params);
 
         if (count($results) == 0) {
-            echo "zero rows";
             return false;
         }
 

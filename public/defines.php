@@ -2,7 +2,8 @@
 
 define('INDEX', 1);
 define('BASEDIR', __DIR__);
-define('DB_DNS', 'pgsql:');
+define('BASEURL', '/tsoha');
+define('DB_DSN', 'pgsql:');
 
 function __autoload($class) {
     $class = strtr($class, '\\', '/');
