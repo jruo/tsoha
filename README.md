@@ -13,8 +13,7 @@ Tietokantasovellus
 [Keskustelufoorumin](http://advancedkittenry.github.io/suunnittelu_ja_tyoymparisto/aiheet/Keskustelufoorumi.html) variaatio. Tarkempi kuvaus dokumentaatiossa.
 
 ### Kirjautumistunnukset
-Ylläpitäjän tunnus (tunnus, salasana)
+Ylläpitäjän tunnus (tunnus, salasana):
 admin, admin
 
-Tavallisen käyttäjän tunnus
---
+Tavallisen käyttäjän tunnus:
