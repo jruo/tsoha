@@ -17,7 +17,7 @@ class TopicList extends AbstractAction {
 
     function __construct(Database $database, User $user) {
         $this->user = $user;
-        $this->topicLoader = new TopicLoader($database);
+        $this->topicLoader = new TopicLoader($database, $user);
     }
 
     public function excute() {
@@ -32,21 +32,26 @@ class TopicList extends AbstractAction {
     private function addPublicTopics() {
         $topics = $this->topicLoader->getPublicTopics();
         $this->view->addTopicGroup(TopicListView::PUBLIC_GROUP);
-        foreach ($topics as $topic) {
-            $title = $topic->getTitle();
-            $topicID = $topic->getTopicID();
-            $postCount = '-1';
-            $user = $topic->getLastPostUsername();
-            $userID = $topic->getLastPostUserID();
-            $time = $topic->getLastPostTime();
-            $newPosts = null;
-            $this->view->addTopic(TopicListView::PUBLIC_GROUP, $title, $topicID, $postCount, $user, $userID, $time, $newPosts);
-        }
+        $this->addTopics($topics, TopicListView::PUBLIC_GROUP);
     }
 
     private function addPrivateTopics() {
+        $topics = $this->topicLoader->getPrivateTopics();
         $this->view->addTopicGroup(TopicListView::PRIVATE_GROUP);
-        $this->view->addTopic(TopicListView::PRIVATE_GROUP, 'Sisäisen viestiketjun otsikko', '1', '1', 'admin', '0', '27.3.2014 klo 19:25', null);
+        $this->addTopics($topics, TopicListView::PRIVATE_GROUP);
+    }
+
+    private function addTopics($topics, $topicGroup) {
+        foreach ($topics as $topic) {
+            $title = $topic->getTitle();
+            $topicID = $topic->getTopicID();
+            $postCount = $topic->getPostCount();
+            $user = $topic->getLastPostUsername();
+            $userID = $topic->getLastPostUserID();
+            $time = date('j.n.Y k\l\o H:i', $topic->getLastPostTime());
+            $newPosts = $topic->getNewPosts();
+            $this->view->addTopic($topicGroup, $title, $topicID, $postCount, $user, $userID, $time, $newPosts);
+        }
     }
 
     private function addPrivateMemberGroupTopics() {

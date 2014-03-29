@@ -14,13 +14,17 @@ class Topic {
     private $lastPostUsername;
     private $lastPostUserID;
     private $lastPostTime;
+    private $postCount;
+    private $newPosts;
 
-    function __construct($topicID, $title, $lastPostUsername, $lastPostUserID, $lastPostTime) {
+    function __construct($topicID, $title, $lastPostUsername, $lastPostUserID, $lastPostTime, $postCount = '-1', $newPosts = null) {
         $this->topicID = $topicID;
         $this->title = $title;
         $this->lastPostUsername = $lastPostUsername;
         $this->lastPostUserID = $lastPostUserID;
         $this->lastPostTime = $lastPostTime;
+        $this->postCount = $postCount;
+        $this->newPosts = $newPosts;
     }
 
     public function getTopicID() {
@@ -41,6 +45,14 @@ class Topic {
 
     public function getLastPostTime() {
         return $this->lastPostTime;
+    }
+
+    public function getPostCount() {
+        return $this->postCount;
+    }
+
+    public function getNewPosts() {
+        return $this->newPosts;
     }
 
 }

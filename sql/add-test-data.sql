@@ -16,7 +16,7 @@ insert into MemberOfGroup values (2, 1);
 insert into MemberOfGroup values (3, 1);
 
 insert into Topic (title, public) values ('Ensimmäinen julkinen viestiketju', 1);
-insert into Topic (title, public) values ('Fooruminen sisäinen viestiketju', 0);
+insert into Topic (title, public) values ('Foorumin sisäinen viestiketju', 0);
 insert into Topic (title, public) values ('Toinen julkinen viestiketju...', 1);
 insert into Topic (title, public) values ('Ja vielä kolmas julkinen', 1);
 insert into Topic (title, public) values ('Matin ja Maijan viestiketju', 0);
