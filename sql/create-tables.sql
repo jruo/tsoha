@@ -26,7 +26,7 @@ create table MemberGroup (
 );
 
 create table MemberInfo (
-    memberID int primary key references Member(memberID),
+    memberID int primary key references Member(memberID) on delete cascade,
     timeRegistered int not null,
     email varchar(500),
     realName varchar(500),
@@ -35,22 +35,24 @@ create table MemberInfo (
 );
 
 create table PostRead (
-    postID int references Post(postID),
+    postID int references Post(postID) on delete cascade,
     memberID int references Member(memberID),
     
     primary key (postID, memberID)
 );
 
 create table TopicVisible (
-    topicID int references Topic(topicID),
-    memberGroupID int references MemberGroup(memberGroupID),
+    topicID int references Topic(topicID) on delete cascade,
+    memberGroupID int references MemberGroup(memberGroupID) on delete cascade,
     
     primary key (topicID, memberGroupID)
 );
 
 create table MemberOfGroup (
     memberID int references Member(memberID),
-    memberGroupID int references MemberGroup(memberGroupID),
+    memberGroupID int references MemberGroup(memberGroupID) on delete cascade,
     
     primary key(memberID, memberGroupID)
 );
+
+insert into MemberGroup values (0, 'Kaikki');
