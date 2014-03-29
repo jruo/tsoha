@@ -17,7 +17,7 @@ class Topic {
     private $postCount;
     private $newPosts;
 
-    function __construct($topicID, $title, $lastPostUsername, $lastPostUserID, $lastPostTime, $postCount = '-1', $newPosts = null) {
+    function __construct($topicID, $title, $lastPostUsername, $lastPostUserID, $lastPostTime, $postCount, $newPosts = null) {
         $this->topicID = $topicID;
         $this->title = $title;
         $this->lastPostUsername = $lastPostUsername;
