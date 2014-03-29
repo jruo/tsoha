@@ -38,7 +38,7 @@ class App {
     }
 
     private function addActions() {
-        $this->actionHandler->setDefaultAction(new TopicList($this->user));
+        $this->actionHandler->setDefaultAction(new TopicList($this->database, $this->user));
         $this->actionHandler->setErrorAction(new InvalidAction());
 
         $this->actionHandler->addAction('login', new Login($this->request, $this->user));

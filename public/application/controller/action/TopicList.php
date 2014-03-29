@@ -2,6 +2,8 @@
 
 namespace application\controller\action;
 
+use application\model\Database;
+use application\model\TopicLoader;
 use application\model\User;
 use application\view\TopicListView;
 
@@ -11,9 +13,11 @@ class TopicList extends AbstractAction {
 
     private $view;
     private $user;
+    private $topicLoader;
 
-    function __construct(User $user) {
+    function __construct(Database $database, User $user) {
         $this->user = $user;
+        $this->topicLoader = new TopicLoader($database);
     }
 
     public function excute() {
@@ -26,8 +30,18 @@ class TopicList extends AbstractAction {
     }
 
     private function addPublicTopics() {
+        $topics = $this->topicLoader->getPublicTopics();
         $this->view->addTopicGroup(TopicListView::PUBLIC_GROUP);
-        $this->view->addTopic(TopicListView::PUBLIC_GROUP, 'Viestiketjun otsikko', '1', '1', 'admin', '0', '27.3.2014 klo 18:02', '1');
+        foreach ($topics as $topic) {
+            $title = $topic->getTitle();
+            $topicID = $topic->getTopicID();
+            $postCount = '-1';
+            $user = $topic->getLastPostUsername();
+            $userID = $topic->getLastPostUserID();
+            $time = $topic->getLastPostTime();
+            $newPosts = null;
+            $this->view->addTopic(TopicListView::PUBLIC_GROUP, $title, $topicID, $postCount, $user, $userID, $time, $newPosts);
+        }
     }
 
     private function addPrivateTopics() {

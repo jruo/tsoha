@@ -17,3 +17,4 @@ Ylläpitäjän tunnus (tunnus, salasana):
 admin, admin
 
 Tavallisen käyttäjän tunnus:
+Matti Meikäläinen, SalainenSana

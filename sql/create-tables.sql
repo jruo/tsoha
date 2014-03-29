@@ -8,7 +8,8 @@ create table Member (
 
 create table Topic (
     topicID serial primary key,
-    title varchar(200) not null
+    title varchar(200) not null,
+    public int not null
 );
 
 create table Post (

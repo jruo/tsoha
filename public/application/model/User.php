@@ -25,7 +25,12 @@ class User {
         if (!isset($_SESSION['username'], $_SESSION['userid'], $_SESSION['ip'], $_SESSION['admin'])) {
             return false;
         }
-        return $_SESSION['ip'] === $_SERVER['REMOTE_ADDR'];
+        if ($_SESSION['ip'] === $_SERVER['REMOTE_ADDR']) {
+            return true;
+        } else {
+            $this->logout();
+            return false;
+        }
     }
 
     public function isLoggedIn() {
