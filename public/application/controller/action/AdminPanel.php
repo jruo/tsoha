@@ -6,7 +6,7 @@ use application\model\User;
 
 defined('INDEX') or die;
 
-class Logout extends AbstractAction {
+class AdminPanel extends AbstractAction {
 
     private $user;
 
@@ -15,25 +15,26 @@ class Logout extends AbstractAction {
     }
 
     public function excute() {
-        $this->user->logout();
-        header('location:' . BASEURL);
-        die;
+        if (!$this->user->isAdmin()) {
+            header('location:' . BASEURL);
+            die;
+        }
     }
 
     public function setVars() {
         
     }
 
-    public function getView() {
-        
+    public function getTitle() {
+        return 'Ylläpito';
     }
 
-    public function getTitle() {
-        
+    public function getView() {
+        return 'adminpanel.php';
     }
 
     public function requireLogin() {
-        return false;
+        return true;
     }
 
 }

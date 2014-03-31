@@ -23,7 +23,7 @@
         </div>
         <?php if ($this->vars['canEdit']) : ?>
             <div class="row">
-                <div class="col-md-offset-2 col-md-10"><a href="/tsoha/?action=editprofile&id=<?php echo $this->vars['userID']; ?>">Muokkaa tietoja</a></div>
+                <div class="col-md-offset-2 col-md-10"><a href="<?php echo BASEURL; ?>?action=editprofile&id=<?php echo $this->vars['userID']; ?>">Muokkaa tietoja</a></div>
             </div>
         <?php endif; ?>
     </div>

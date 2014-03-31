@@ -4,7 +4,10 @@ namespace application\controller\action;
 
 defined('INDEX') or die;
 
-class InvalidAction extends AbstractAction {
+class Search extends AbstractAction {
+
+    private $database;
+    private $request;
 
     public function excute() {
         
@@ -14,16 +17,16 @@ class InvalidAction extends AbstractAction {
         
     }
 
-    public function getView() {
-        return 'pagenotfound.php';
+    public function getTitle() {
+        return 'Haku';
     }
 
-    public function getTitle() {
-        return '404 - Sivua ei löydy';
+    public function getView() {
+        return 'search.php';
     }
 
     public function requireLogin() {
-        return false;
+        return true;
     }
 
 }

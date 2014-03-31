@@ -2,7 +2,7 @@
 
 define('INDEX', 1);
 define('BASEDIR', __DIR__);
-define('BASEURL', '/tsoha');
+define('BASEURL', 'http://jmruoho.users.cs.helsinki.fi/tsoha/');
 define('DB_DSN', 'pgsql:');
 
 function __autoload($class) {

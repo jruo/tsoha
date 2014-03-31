@@ -33,7 +33,6 @@ class Profile extends AbstractAction {
     }
 
     public function setVars() {
-        $this->renderer->addVar('username', $this->profileInfo->getUsername());
         $this->renderer->addVar('timeRegistered', date('j.n.Y k\l\o H:i', $this->profileInfo->getTimeRegistered()));
         $this->renderer->addVar('postCount', $this->profileInfo->getPostCount());
         $this->renderer->addVar('email', $this->profileInfo->getEmail());
@@ -46,7 +45,7 @@ class Profile extends AbstractAction {
     }
 
     public function getView() {
-        return 'profileView.php';
+        return 'profile.php';
     }
 
     public function getTitle() {

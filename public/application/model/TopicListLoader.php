@@ -145,7 +145,7 @@ SQL;
             } else {
                 $newcount = null;
             }
-            $topics[] = new TopicRow($row['topicid'], $row['title'], $row['username'], $row['memberid'], $row['timesent'], $row['count'], $newcount);
+            $topics[] = new TopicListRow($row['topicid'], $row['title'], $row['username'], $row['memberid'], $row['timesent'], $row['count'], $newcount);
         }
         return $topics;
     }

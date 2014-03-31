@@ -3,10 +3,15 @@
 namespace application\controller;
 
 use application\controller\action\ActionHandler;
+use application\controller\action\AdminPanel;
+use application\controller\action\EditProfile;
 use application\controller\action\InvalidAction;
 use application\controller\action\Login;
 use application\controller\action\Logout;
+use application\controller\action\NewTopic;
 use application\controller\action\Profile;
+use application\controller\action\Search;
+use application\controller\action\Topic;
 use application\controller\action\TopicList;
 use application\model\Database;
 use application\model\User;
@@ -47,6 +52,12 @@ class App {
         $this->actionHandler->addAction('login', new Login($this->request, $this->user));
         $this->actionHandler->addAction('logout', new Logout($this->user));
         $this->actionHandler->addAction('profile', new Profile($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('topic', new Topic($this->database, $this->request));
+        $this->actionHandler->addAction('newtopic', new NewTopic($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('search', new Search($this->database, $this->request));
+        $this->actionHandler->addAction('editprofile', new EditProfile($this->database, $this->request, $this->user));
+        
+        $this->actionHandler->addAction('admin', new AdminPanel($this->user));
     }
 
     private function renderPage() {

@@ -66,7 +66,7 @@ class ActionHandler {
         if ($action->requireLogin() && !$this->user->isLoggedIn()) {
             // The user is not logged in, but the requested actions requires that
             $baseURL = BASEURL;
-            header("location:{$baseURL}/?action=login&message=Tämä toiminto vaatii kirjautumisen");
+            header("location:{$baseURL}?action=login&message=Tämä toiminto vaatii kirjautumisen");
             die;
         }
         $this->getRequestedAction()->excute();

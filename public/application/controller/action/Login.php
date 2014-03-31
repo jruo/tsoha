@@ -19,7 +19,7 @@ class Login extends AbstractAction {
 
     public function excute() {
         if ($this->user->isLoggedIn()) {
-            header('location:?'); // already logged in, return to home page
+            header('location:' . BASEURL); // already logged in, return to home page
             die;
         }
 
@@ -33,11 +33,11 @@ class Login extends AbstractAction {
         $baseURL = BASEURL;
         if ($this->user->login($username, $password)) {
             // login succesful, redirect to home page
-            header("location:{$baseURL}/");
+            header("location:{$baseURL}");
             die;
         } else {
             // login failed, redirect to login form with an error
-            header("location:{$baseURL}/?action=login&error=1");
+            header("location:{$baseURL}?action=login&error=1");
             die;
         }
     }

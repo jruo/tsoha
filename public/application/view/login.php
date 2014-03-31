@@ -7,7 +7,7 @@
         <?php if ($this->vars['error']) : ?>
             <div class="alert alert-danger">Väärä käyttäjänimi tai salasana</div>
         <?php endif; ?>
-        <form class="form-horizontal" role="form" method="post" action="/tsoha/?action=login">
+        <form class="form-horizontal" role="form" method="post" action="<?php echo BASEURL; ?>?action=login">
             <div class="form-group">
                 <label for="username" class="col-sm-2 control-label">Käyttäjänimi</label>
                 <div class="col-sm-10">
