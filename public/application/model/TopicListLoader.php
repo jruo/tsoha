@@ -4,7 +4,7 @@ namespace application\model;
 
 defined('INDEX') or die;
 
-class TopicLoader {
+class TopicListLoader {
 
     private $database;
     private $user;
@@ -145,7 +145,7 @@ SQL;
             } else {
                 $newcount = null;
             }
-            $topics[] = new Topic($row['topicid'], $row['title'], $row['username'], $row['memberid'], $row['timesent'], $row['count'], $newcount);
+            $topics[] = new TopicRow($row['topicid'], $row['title'], $row['username'], $row['memberid'], $row['timesent'], $row['count'], $newcount);
         }
         return $topics;
     }

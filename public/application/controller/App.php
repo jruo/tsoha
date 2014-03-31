@@ -11,7 +11,6 @@ use application\controller\action\TopicList;
 use application\model\Database;
 use application\model\User;
 use application\view\Renderer;
-use application\view\Template;
 
 defined('INDEX') or die;
 
@@ -53,15 +52,14 @@ class App {
     private function renderPage() {
         $action = $this->actionHandler->getRequestedAction();
         
-        $this->renderer->addGlobal('admin', $this->user->isAdmin());
-        $this->renderer->addGlobal('loggedIn', $this->user->isLoggedIn());
-        $this->renderer->addGlobal('username', $this->user->getUsername());
-        $this->renderer->addGlobal('title', $action->getTitle());
+        $this->renderer->addVar('admin', $this->user->isAdmin());
+        $this->renderer->addVar('loggedIn', $this->user->isLoggedIn());
+        $this->renderer->addVar('username', $this->user->getUsername());
+        $this->renderer->addVar('title', $action->getTitle());
         
-        $action->setLocals();
+        $action->setVars();
         
-        $page = $action->getView();
-        $this->renderer->renderPage($page);
+        $this->renderer->renderPage($action->getView());
     }
 
 }

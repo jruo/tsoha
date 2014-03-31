@@ -4,18 +4,21 @@ namespace application\view;
 
 defined('INDEX') or die;
 
+/**
+ * Renders the template and the actual page inside it
+ */
 class Renderer {
 
-    private $globals;
-    private $locals;
+    private $vars;
     private $innerPage;
 
-    public function addGlobal($key, $value) {
-        $this->globals[$key] = $value;
-    }
-
-    public function addLocal($key, $value) {
-        $this->locals[$key] = $value;
+    /**
+     * Adds a variable to the view
+     * @param string $key
+     * @param string $value
+     */
+    public function addVar($key, $value) {
+        $this->vars[$key] = $value;
     }
 
     public function renderPage($page) {

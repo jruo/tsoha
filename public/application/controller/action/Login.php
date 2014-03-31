@@ -42,9 +42,9 @@ class Login extends AbstractAction {
         }
     }
     
-    public function setLocals() {
-        $this->renderer->addLocal('error', $this->request->getGetData('error') == '1');
-        $this->renderer->addLocal('message', $this->request->getGetData('message'));
+    public function setVars() {
+        $this->renderer->addVar('error', $this->request->getGetData('error') == '1');
+        $this->renderer->addVar('message', $this->request->getGetData('message'));
     }
 
     public function getView() {

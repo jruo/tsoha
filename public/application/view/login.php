@@ -1,13 +1,13 @@
 <?php defined('INDEX') or die; ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <?php if (isset($this->locals['message'])) : ?>
-            <div class="alert alert-warning"><?php echo $this->locals['message']; ?></div>
+        <?php if (isset($this->vars['message'])) : ?>
+            <div class="alert alert-warning"><?php echo $this->vars['message']; ?></div>
         <?php endif; ?>
-        <?php if ($this->locals['error']) : ?>
+        <?php if ($this->vars['error']) : ?>
             <div class="alert alert-danger">Väärä käyttäjänimi tai salasana</div>
         <?php endif; ?>
-        <form class="form-horizontal" role="form" method="post" action="?action=login">
+        <form class="form-horizontal" role="form" method="post" action="/tsoha/?action=login">
             <div class="form-group">
                 <label for="username" class="col-sm-2 control-label">Käyttäjänimi</label>
                 <div class="col-sm-10">

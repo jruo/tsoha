@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title><?php echo $this->globals['title']; ?></title>
+        <title><?php echo $this->vars['title']; ?></title>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="/tsoha/css/bootstrap.min.css">
@@ -16,15 +16,15 @@
                     <a class="forum-top-item" href="/tsoha/">Etusivu</a>
                     <a class="forum-top-item" href="/tsoha/?action=newtopic">Aloita uusi viestiketju</a>
                     <a class="forum-top-item" href="/tsoha/?action=search">Hae</a>
-                    <?php if ($this->globals['admin']) : ?>
+                    <?php if ($this->vars['admin']) : ?>
                         <a class="forum-top-item" href="/tsoha/?action=admin">Ylläpito</a>
                     <?php endif ?>
                 </div>
                 <div class="forum-right">
-                    <?php if ($this->globals['loggedIn']): ?>
+                    <?php if ($this->vars['loggedIn']): ?>
                         <span class="forum-top-item">Tervetuloa, </span>
                         <div class="dropdown">
-                            <a data-toggle="dropdown" class="forum-top-item" href="#"><?php echo $this->globals['username']; ?> <span class="caret"></span></a>
+                            <a data-toggle="dropdown" class="forum-top-item" href="#"><?php echo $this->vars['username']; ?> <span class="caret"></span></a>
                             <ul class="dropdown-menu">
                                 <li><a href="/tsoha/?action=profile">Näytä profiili</a></li>
                                 <li class="divider"></li>
@@ -40,7 +40,7 @@
         </div>
         <div class="container">
             <div class="page-header">
-                <h1><?php echo $this->globals['title']; ?></h1>
+                <h1><?php echo $this->vars['title']; ?></h1>
             </div>
             <?php require $this->innerPage; ?>
         </div>

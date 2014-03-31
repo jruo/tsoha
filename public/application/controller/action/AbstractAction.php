@@ -23,9 +23,9 @@ abstract class AbstractAction {
     public abstract function excute();
     
     /**
-     * Init the local variables of the view;
+     * Init the variables for the view;
      */
-    public abstract function setLocals();
+    public abstract function setVars();
 
     /**
      * Returns the file name of the view of this action

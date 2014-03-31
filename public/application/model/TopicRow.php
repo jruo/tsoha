@@ -7,7 +7,7 @@ defined('INDEX') or die;
 /**
  * A topic in the front page listing
  */
-class Topic {
+class TopicRow {
 
     private $topicID;
     private $title;

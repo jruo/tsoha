@@ -10,7 +10,7 @@ class InvalidAction extends AbstractAction {
         
     }
 
-    public function setLocals() {
+    public function setVars() {
         
     }
 

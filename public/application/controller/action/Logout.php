@@ -21,7 +21,7 @@ class Logout extends AbstractAction {
         die;
     }
 
-    public function setLocals() {
+    public function setVars() {
         
     }
 

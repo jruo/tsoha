@@ -7,7 +7,7 @@
             <th class="col-md-1">Viestejä</th>
             <th class="col-md-4">Viimeisin vastaus</th>
         </tr>
-        <?php foreach ($this->locals['publicTopics'] as $topic) : ?>
+        <?php foreach ($this->vars['publicTopics'] as $topic) : ?>
             <tr>
                 <td>
                     <a href="/tsoha/?action=topic&id=<?php echo $topic['topicID']; ?>"><?php echo $topic['title']; ?></a>
@@ -19,7 +19,7 @@
         <?php endforeach; ?>
     </table>
 </div>
-<?php if ($this->globals['loggedIn']) : ?>
+<?php if ($this->vars['loggedIn']) : ?>
     <div class="panel panel-primary">
         <div class="panel-heading">Sisäiset viestiketjut</div>
         <table class="table-striped table">
@@ -28,7 +28,7 @@
                 <th class="col-md-1">Viestejä</th>
                 <th class="col-md-4">Viimeisin vastaus</th>
             </tr>
-            <?php foreach ($this->locals['privateTopics'] as $topic) : ?>
+            <?php foreach ($this->vars['privateTopics'] as $topic) : ?>
                 <tr>
                     <td>
                         <a href="/tsoha/?action=topic&id=<?php echo $topic['topicID']; ?>"><?php echo $topic['title']; ?></a>

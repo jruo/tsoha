@@ -3,7 +3,7 @@
 namespace application\controller\action;
 
 use application\model\Database;
-use application\model\TopicLoader;
+use application\model\TopicListLoader;
 use application\model\User;
 
 defined('INDEX') or die;
@@ -17,7 +17,7 @@ class TopicList extends AbstractAction {
 
     function __construct(Database $database, User $user) {
         $this->user = $user;
-        $this->topicLoader = new TopicLoader($database, $user);
+        $this->topicLoader = new TopicListLoader($database, $user);
     }
 
     public function excute() {
@@ -27,9 +27,9 @@ class TopicList extends AbstractAction {
         }
     }
 
-    public function setLocals() {
-        $this->renderer->addLocal('publicTopics', $this->publicTopics);
-        $this->renderer->addLocal('privateTopics', $this->privateTopics);
+    public function setVars() {
+        $this->renderer->addVar('publicTopics', $this->publicTopics);
+        $this->renderer->addVar('privateTopics', $this->privateTopics);
     }
 
     public function getView() {
