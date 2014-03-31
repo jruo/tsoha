@@ -132,3 +132,30 @@ where       topic.topicid=post.topicid
             )
     and     topic.public=0
 order by    post.timesent desc;
+
+
+
+/*
+ * HAE KÄYTTÄJÄN TIEDOT
+ */
+ 
+select      member.username, member.memberid, memberinfo.timeregistered, memberinfo.email, memberinfo.realname, memberinfo.age, memberinfo.gender, postcount.postcount
+from        member, memberinfo, (
+                select member.memberid, postcount.postcount
+                from member
+                left join (
+                    select memberid, count(*) as postcount
+                    from post
+                    group by memberid
+                ) as postcount
+                on member.memberid=postcount.memberid
+                where member.memberid=?
+            ) as postcount
+where       member.memberid=?
+    and     member.memberid=memberinfo.memberid
+    and     member.memberid=postcount.memberid;
+ 
+
+ 
+ 
+ 

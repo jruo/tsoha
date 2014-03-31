@@ -4,6 +4,7 @@ namespace application\controller\action;
 
 use application\controller\Request;
 use application\model\User;
+use application\view\Renderer;
 
 defined('INDEX') or die;
 
@@ -14,16 +15,19 @@ class ActionHandler {
 
     private $request;
     private $user;
+    private $renderer;
     private $actions;
     private $defaultAction;
     private $errorAction;
+    private $requestedAction;
 
     /**
      * @param Request $request User's request
      */
-    function __construct(Request $request, User $user) {
+    function __construct(Request $request, User $user, Renderer $renderer) {
         $this->request = $request;
         $this->user = $user;
+        $this->renderer = $renderer;
         $this->actions = array();
     }
 
@@ -46,10 +50,10 @@ class ActionHandler {
 
     /**
      * Sets the error action
-     * @param AbstractAction $errorAction Error Action
+     * @param AbstractAction $action Error Action
      */
-    public function setErrorAction(AbstractAction $errorAction) {
-        $this->errorAction = $errorAction;
+    public function setErrorAction(AbstractAction $action) {
+        $this->errorAction = $action;
     }
 
     /**
@@ -57,6 +61,8 @@ class ActionHandler {
      */
     public function executeRequestedAction() {
         $action = $this->getRequestedAction();
+        $action->setRenderer($this->renderer);
+        
         if ($action->requireLogin() && !$this->user->isLoggedIn()) {
             // The user is not logged in, but the requested actions requires that
             $baseURL = BASEURL;
@@ -71,15 +77,18 @@ class ActionHandler {
      * @return AbstractAction Requested action
      */
     public function getRequestedAction() {
+        if (isset($this->requestedAction)) {
+            return $this->requestedAction;
+        }
         $action = $this->request->getAction();
         if (!isset($action) || empty($action)) {
-            return $this->defaultAction; // no request, use the default action
-        }
-        if (array_key_exists($action, $this->actions)) {
-            return $this->actions[$action]; // valid request
+            $this->requestedAction = $this->defaultAction; // no request, use the default action
+        } else if (array_key_exists($action, $this->actions)) {
+            $this->requestedAction = $this->actions[$action]; // valid request
         } else {
-            return $this->errorAction; // invalid request
+            $this->requestedAction = $this->errorAction; // invalid request
         }
+        return $this->requestedAction;
     }
 
 }

@@ -4,7 +4,6 @@ namespace application\controller\action;
 
 use application\controller\Request;
 use application\model\User;
-use application\view\LoginView;
 
 defined('INDEX') or die;
 
@@ -42,16 +41,21 @@ class Login extends AbstractAction {
             die;
         }
     }
-
-    public function getView() {
-        $view = new LoginView();
-        $view->setLoginFailed($this->request->getGetData('error') == 1);
-        $view->setMessage($this->request->getGetData('message'));
-        return $view;
+    
+    public function setLocals() {
+        $this->renderer->addLocal('error', $this->request->getGetData('error') == '1');
+        $this->renderer->addLocal('message', $this->request->getGetData('message'));
     }
 
+    public function getView() {
+        return 'login.php';
+    }
+
+    public function getTitle() {
+        return 'Kirjaudu sisään';
+    }
+    
     public function requireLogin() {
         return false;
     }
-
 }

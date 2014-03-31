@@ -21,8 +21,16 @@ class Logout extends AbstractAction {
         die;
     }
 
+    public function setLocals() {
+        
+    }
+
     public function getView() {
-        return null; // will never get called
+        
+    }
+
+    public function getTitle() {
+        
     }
 
     public function requireLogin() {

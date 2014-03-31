@@ -2,8 +2,6 @@
 
 namespace application\controller\action;
 
-use application\view\PageNotFound;
-
 defined('INDEX') or die;
 
 class InvalidAction extends AbstractAction {
@@ -12,8 +10,16 @@ class InvalidAction extends AbstractAction {
         
     }
 
+    public function setLocals() {
+        
+    }
+
     public function getView() {
-        return new PageNotFound();
+        return 'pageNotFound.php';
+    }
+
+    public function getTitle() {
+        return '404 - Sivua ei löydy';
     }
 
     public function requireLogin() {
