@@ -37,14 +37,13 @@ class Login extends AbstractAction {
             die;
         } else {
             // login failed, redirect to login form with an error
-            header("location:{$baseURL}?action=login&error=1");
+            header("location:{$baseURL}?action=login&message=Väärä käyttäjänimi tai salasana");
             die;
         }
     }
     
     public function setVars() {
-        $this->renderer->addVar('error', $this->request->getGetData('error') == '1');
-        $this->renderer->addVar('message', $this->request->getGetData('message'));
+        
     }
 
     public function getView() {

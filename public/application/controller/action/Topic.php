@@ -4,7 +4,8 @@ namespace application\controller\action;
 
 use application\controller\Request;
 use application\model\Database;
-use application\model\PostLoader;
+use application\model\Post;
+use application\model\Topic as TopicModel;
 use application\model\User;
 
 class Topic extends AbstractAction {
@@ -13,6 +14,8 @@ class Topic extends AbstractAction {
     private $request;
     private $user;
     private $topicID;
+    private $title;
+    private $posts;
 
     function __construct(Database $database, Request $request, User $user) {
         $this->database = $database;
@@ -28,23 +31,25 @@ class Topic extends AbstractAction {
             die;
         }
         
-        $loader = new PostLoader($this->database, $this->request);
+        $loader = new TopicModel($this->database, $this->user, $this->topicID);
         
-        if (!$loader->canAccessTopic($topicID)) {
-            // the user cannot access this topic
-            header('location:' . BASEURL);
+        if (!$loader->canAccess($this->topicID)) {
+            // the user cannot access this topic or topic does not exist
+            header('location:' . BASEURL . '?message=Virheellinen viestiketju');
             die;
         }
         
-        $topics = $loader->loadPosts($this->topicID);
+        $this->title = $loader->getTitle();
+        $this->posts = $this->parsePosts($loader->loadPosts($this->topicID));
     }
 
     public function setVars() {
-        
+        $this->renderer->addVar('posts', $this->posts);
+        $this->renderer->addVar('topicID', $this->topicID);
     }
 
     public function getTitle() {
-        
+        return $this->title;
     }
 
     public function getView() {
@@ -53,6 +58,27 @@ class Topic extends AbstractAction {
 
     public function requireLogin() {
         return false;
+    }
+    
+    private function parsePosts($posts) {
+        $array = array();
+        foreach ($posts as $post) {
+            $postID = $post->getPostID();
+            $postNumber = $post->getPostNumber();
+            $replyToNumber = $post->getReplyToNumber();
+            $memberID = $post->getMemberID();
+            $username = $post->getUsername();
+            $content = $post->getContent();
+            $timeSent = date('j.n.Y k\l\o H:i', $post->getTimeSent());
+            $read = $post->getRead() == 1;
+            $canEdit = $post->canEdit($this->user);
+            $canDelete = $post->canDelete($this->user);
+            $array[] = array('postID' => $postID, 'postNumber' => $postNumber,
+                'replyToNumber' => $replyToNumber, 'memberID' => $memberID,
+                'username' => $username, 'content' => $content, 'read' => $read,
+                'timeSent' => $timeSent, 'canEdit' => $canEdit, 'canDelete' => $canDelete);
+        }
+        return $array;
     }
 
 }

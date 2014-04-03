@@ -1,12 +1,6 @@
 <?php defined('INDEX') or die; ?>
 <div class="panel panel-default">
     <div class="panel-body">
-        <?php if (isset($this->vars['message'])) : ?>
-            <div class="alert alert-warning"><?php echo $this->vars['message']; ?></div>
-        <?php endif; ?>
-        <?php if ($this->vars['error']) : ?>
-            <div class="alert alert-danger">Väärä käyttäjänimi tai salasana</div>
-        <?php endif; ?>
         <form class="form-horizontal" role="form" method="post" action="<?php echo BASEURL; ?>?action=login">
             <div class="form-group">
                 <label for="username" class="col-sm-2 control-label">Käyttäjänimi</label>

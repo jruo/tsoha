@@ -4,6 +4,7 @@ namespace application\controller;
 
 use application\controller\action\ActionHandler;
 use application\controller\action\AdminPanel;
+use application\controller\action\DeletePost;
 use application\controller\action\EditProfile;
 use application\controller\action\InvalidAction;
 use application\controller\action\Login;
@@ -52,10 +53,11 @@ class App {
         $this->actionHandler->addAction('login', new Login($this->request, $this->user));
         $this->actionHandler->addAction('logout', new Logout($this->user));
         $this->actionHandler->addAction('profile', new Profile($this->database, $this->request, $this->user));
-        $this->actionHandler->addAction('topic', new Topic($this->database, $this->request));
+        $this->actionHandler->addAction('topic', new Topic($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('newtopic', new NewTopic($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('search', new Search($this->database, $this->request));
         $this->actionHandler->addAction('editprofile', new EditProfile($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('deletepost', new DeletePost($this->database, $this->request, $this->user));
         
         $this->actionHandler->addAction('admin', new AdminPanel($this->user));
     }
@@ -67,6 +69,7 @@ class App {
         $this->renderer->addVar('loggedIn', $this->user->isLoggedIn());
         $this->renderer->addVar('username', $this->user->getUsername());
         $this->renderer->addVar('title', $action->getTitle());
+        $this->renderer->addVar('message', $this->request->getGetData('message'));
         
         $action->setVars();
         

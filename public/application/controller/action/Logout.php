@@ -25,11 +25,11 @@ class Logout extends AbstractAction {
     }
 
     public function getView() {
-        
+        return null;
     }
 
     public function getTitle() {
-        
+        return null;
     }
 
     public function requireLogin() {

@@ -1,30 +1,27 @@
-<?php defined('INDEX') or die; ?>
-<div class="panel panel-default forum-post">
-    <div class="panel-heading forum-post-heading"><div id="postid1">#1 <a href="#">Vastaa</a> | <a href="#">Muokkaa</a> | <a href="#">Poista</a></div></div>
-    <div class="panel-body">
-        <div class="col-sm-2">
-            <small>20.3.2014 klo 18:00</small><br/>
-            <a href="/tsoha/html-demo/profile.html">Matti Meikäläinen</a>
-        </div>
-        <div class="col-sm-10">
-            Tervetuloa keskustelufoorumille! :3<br/><br/>- Matti
-        </div>
-    </div>
-</div>
+<?php defined('INDEX') or die;
 
-<div class="panel panel-primary forum-post">
-    <div class="panel-heading forum-post-heading"><div id="postid3">#3 <a href="#">Vastaa</a> | <a href="#">Muokkaa</a> | <a href="#">Poista</a></div></div>
+foreach ($this->vars['posts'] as $post) : ?>
+<div class="panel <?php echo $post['read'] ? 'panel-default' : 'panel-primary'?> forum-post">
+    <div class="panel-heading forum-post-heading">
+        <div id="postid<?php echo $post['postNumber'];?>">#<?php echo $post['postNumber'];?> <a href="javascript:reply(<?php echo $post['postNumber'];?>);">Vastaa</a>
+            <?php if ($post['canEdit']) : ?>
+                | <a href="<?php echo BASEURL . "?action=editpost&id={$post['postID']}"; ?>">Muokkaa</a>
+            <?php endif; if ($post['canDelete']) : ?>
+                | <a href="<?php echo BASEURL . "?action=deletepost&id={$post['postID']}"; ?>">Poista</a>
+            <?php endif; ?>
+        </div>
+    </div>
     <div class="panel-body">
         <div class="col-sm-2">
-            <small>20.3.2014 klo 18:47</small><br/>
-            <a href="/tsoha/html-demo/profile.html">Mikko Meikäläinen</a>
+            <small><?php echo $post['timeSent'];?></small><br/>
+            <a href="<?php echo BASEURL . "?action=profile&id={$post['memberID']}";?>"><?php echo $post['username'];?></a>
         </div>
         <div class="col-sm-10">
-            <p><em><small>&gt; Vastaus viestiin <a href="#postid1">#1</a> käyttäjältä Matti Meikäläinen</small></em></p>
-            Me gusta.
+            <?php echo $post['content'];?>
         </div>
     </div>
 </div>
+<?php endforeach; ?>
 
 <hr>
 <div class="panel panel-default forum-post-reply">
@@ -33,9 +30,10 @@
             <small>Vastaa ketjuun</small>
         </div>
         <div class="col-sm-10">
-            <form role="form">
+            <form method="post" action="<?php echo BASEURL; ?>?action=PLACEHOLDER&id=<?php echo $this->vars['topicID']; ?>" role="form">
+                <input type="hidden" />
                 <div class="form-group">
-                    <!--<p><em><small>Viesti lähetetään vastauksena viestiin #3</small></em></p>-->
+                    <p><em><small id="replyMessage"></small></em></p>
                     <textarea required class="form-control" id="forum-post-reply-form" rows="5"></textarea>
                 </div>
                 <div class="form-group">

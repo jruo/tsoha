@@ -42,6 +42,9 @@
             <div class="page-header">
                 <h1><?php echo $this->vars['title']; ?></h1>
             </div>
+            <?php if (isset($this->vars['message'])) : ?>
+                <div class="alert alert-danger"><?php echo $this->vars['message']; ?></div>
+            <?php endif; ?>
             <?php require $this->innerPage; ?>
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>

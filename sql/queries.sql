@@ -162,10 +162,18 @@ where       member.memberid=?
  * HAE VIESTIKETJUN VIESTIT
  */
  
-select      post.postid, post.memberid, post.topicid, post.content, post.timesent, member.username
-from        post, member
-where       post.topicid=2
-   and      post.memberid=member.memberid;
+select      post.postid, post.memberid, post.topicid, post.content, post.timesent, member.username, read.read
+from        post
+inner join  member
+    on      post.memberid=member.memberid
+left join   (
+                select postid, 1 as read
+                from postread
+                where memberid=?
+            ) as read
+    on      post.postid=read.postid
+where       post.topicid=?
+order by    post.postnumber asc;
    
 
    
@@ -187,3 +195,22 @@ where       topicid in (
                 from member
                 where admin=1
             );
+
+
+
+/*
+ * MERKITSE VIESTIT LUETUKSI
+ */
+
+insert into postread
+    select  postid, ? as memberid
+    from    post
+    where   topicid=?
+        and     postid not in (
+                    select postid
+                    from postread
+                    where memberid=?
+                );
+
+                
+                
