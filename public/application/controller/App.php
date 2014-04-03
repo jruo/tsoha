@@ -5,6 +5,7 @@ namespace application\controller;
 use application\controller\action\ActionHandler;
 use application\controller\action\AdminPanel;
 use application\controller\action\DeletePost;
+use application\controller\action\EditPost;
 use application\controller\action\EditProfile;
 use application\controller\action\InvalidAction;
 use application\controller\action\Login;
@@ -58,6 +59,7 @@ class App {
         $this->actionHandler->addAction('search', new Search($this->database, $this->request));
         $this->actionHandler->addAction('editprofile', new EditProfile($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('deletepost', new DeletePost($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('editpost', new EditPost($this->database, $this->request, $this->user));
         
         $this->actionHandler->addAction('admin', new AdminPanel($this->user));
     }

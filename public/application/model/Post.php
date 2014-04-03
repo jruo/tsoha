@@ -30,6 +30,9 @@ class Post {
         if ($this->memberID == null) {
             $this->memberID = $this->loadMemberID();
         }
+        if ($this->content == null) {
+            $this->content = $this->loadContent();
+        }
     }
 
     public function getPostID() {
@@ -88,12 +91,25 @@ class Post {
         $params = array($this->postID);
         $this->database->query($query, $params);
     }
+    
+    public function edit($newContent) {
+        $query = 'update post set content=? where postid=?;';
+        $params = array($newContent, $this->postID);
+        $this->database->query($query, $params);
+    }
 
     private function loadMemberID() {
         $query = 'select memberid from post where postid=?;';
         $params = array($this->postID);
         $results = $this->database->query($query, $params);
         return $results[0]['memberid'];
+    }
+    
+    private function loadContent() {
+        $query = 'select content from post where postid=?;';
+        $params = array($this->postID);
+        $results = $this->database->query($query, $params);
+        return $results[0]['content'];
     }
 
 }

@@ -5,7 +5,7 @@ foreach ($this->vars['posts'] as $post) : ?>
     <div class="panel-heading forum-post-heading">
         <div id="postid<?php echo $post['postNumber'];?>">#<?php echo $post['postNumber'];?> <a href="javascript:reply(<?php echo $post['postNumber'];?>);">Vastaa</a>
             <?php if ($post['canEdit']) : ?>
-                | <a href="<?php echo BASEURL . "?action=editpost&id={$post['postID']}"; ?>">Muokkaa</a>
+                | <a href="<?php echo BASEURL . "?action=editpost&id={$post['postID']}&topicid={$this->vars['topicID']}"; ?>">Muokkaa</a>
             <?php endif; if ($post['canDelete']) : ?>
                 | <a href="<?php echo BASEURL . "?action=deletepost&id={$post['postID']}"; ?>">Poista</a>
             <?php endif; ?>

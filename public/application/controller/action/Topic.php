@@ -2,9 +2,9 @@
 
 namespace application\controller\action;
 
+use application\controller\PostFormatter;
 use application\controller\Request;
 use application\model\Database;
-use application\model\Post;
 use application\model\Topic as TopicModel;
 use application\model\User;
 
@@ -62,13 +62,14 @@ class Topic extends AbstractAction {
     
     private function parsePosts($posts) {
         $array = array();
+        $postFormatter = new PostFormatter();
         foreach ($posts as $post) {
             $postID = $post->getPostID();
             $postNumber = $post->getPostNumber();
             $replyToNumber = $post->getReplyToNumber();
             $memberID = $post->getMemberID();
             $username = $post->getUsername();
-            $content = $post->getContent();
+            $content = $postFormatter->format($post->getContent());
             $timeSent = date('j.n.Y k\l\o H:i', $post->getTimeSent());
             $read = $post->getRead() == 1;
             $canEdit = $post->canEdit($this->user);
