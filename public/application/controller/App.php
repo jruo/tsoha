@@ -37,8 +37,8 @@ class App {
         $this->request = new Request();
         $this->user = new User($this->database);
         $this->renderer = new Renderer();
+        
         $this->actionHandler = new ActionHandler($this->request, $this->user, $this->renderer);
-
         $this->addActions();
         $this->actionHandler->executeRequestedAction();
 

@@ -15,7 +15,9 @@ create table Topic (
 create table Post (
     postID serial primary key,
     memberID int references Member(memberID),
-    topicID int references Topic(topicID), 
+    topicID int references Topic(topicID) on delete cascade,
+    postNumber int not null,
+    replyToNumber int,
     content text not null,
     timeSent int not null
 );

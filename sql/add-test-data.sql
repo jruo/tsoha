@@ -27,9 +27,9 @@ insert into TopicVisible values (3, 0);
 insert into TopicVisible values (4, 0);
 insert into TopicVisible values (5, 1);
 
-insert into Post (memberID, topicID, content, timeSent) values (1, 1, 'Tervetuloa foorumille :)', 1396099427);
-insert into Post (memberID, topicID, content, timeSent) values (1, 2, 'Tervetuloa foorumille, tämän alueen viestiketjut näkyvät vain rekisteröidyille jäsenille.', 1396099493);
-insert into Post (memberID, topicID, content, timeSent) values (1, 3, 'Joo jotain viestiä', 1396099691);
-insert into Post (memberID, topicID, content, timeSent) values (2, 4, 'Matin viesti', 1396099999);
-insert into Post (memberID, topicID, content, timeSent) values (2, 4, 'Matin uudempi viesti', 1396100200);
-insert into Post (memberID, topicID, content, timeSent) values (3, 5, 'Maijan viesti matille', 1396100199);
+insert into Post (memberID, topicID, content, timeSent, postNumber, replyToNumber) values (1, 1, 'Tervetuloa foorumille :)', 1396099427, 1, NULL);
+insert into Post (memberID, topicID, content, timeSent, postNumber, replyToNumber) values (1, 2, 'Tervetuloa foorumille, tämän alueen viestiketjut näkyvät vain rekisteröidyille jäsenille.', 1396099493, 1, NULL);
+insert into Post (memberID, topicID, content, timeSent, postNumber, replyToNumber) values (1, 3, 'Joo jotain viestiä', 1396099691, 1, NULL);
+insert into Post (memberID, topicID, content, timeSent, postNumber, replyToNumber) values (2, 4, 'Matin viesti', 1396099999, 1, NULL);
+insert into Post (memberID, topicID, content, timeSent, postNumber, replyToNumber) values (2, 4, 'Matin uudempi viesti', 1396100200, 2, 1);
+insert into Post (memberID, topicID, content, timeSent, postNumber, replyToNumber) values (3, 5, 'Maijan viesti matille', 1396100199, 1, NULL);

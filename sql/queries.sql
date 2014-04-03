@@ -138,7 +138,7 @@ order by    post.timesent desc;
 /*
  * HAE KÄYTTÄJÄN TIEDOT
  */
- 
+
 select      member.username, member.memberid, memberinfo.timeregistered, memberinfo.email, memberinfo.realname, memberinfo.age, memberinfo.gender, postcount.postcount
 from        member, memberinfo, (
                 select member.memberid, postcount.postcount
@@ -158,4 +158,32 @@ where       member.memberid=?
 
  
  
+/*
+ * HAE VIESTIKETJUN VIESTIT
+ */
  
+select      post.postid, post.memberid, post.topicid, post.content, post.timesent, member.username
+from        post, member
+where       post.topicid=2
+   and      post.memberid=member.memberid;
+   
+
+   
+/*
+ * HAE KETJUT, JOIHIN KÄYTTÄJÄLLÄ ON OIKEUS
+ */
+select      topicid
+from        topic
+where       topicid in (
+                select topic.topicid
+                from topic, topicvisible, memberofgroup
+                where topic.topicid=topicvisible.topicid
+                    and topicvisible.membergroupid=memberofgroup.membergroupid
+                    and memberid=?
+            )
+    or      public=1
+    or      ? in (
+                select memberid
+                from member
+                where admin=1
+            );
