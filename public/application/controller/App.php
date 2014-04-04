@@ -10,6 +10,7 @@ use application\controller\action\EditProfile;
 use application\controller\action\InvalidAction;
 use application\controller\action\Login;
 use application\controller\action\Logout;
+use application\controller\action\NewPost;
 use application\controller\action\NewTopic;
 use application\controller\action\Profile;
 use application\controller\action\Search;
@@ -51,17 +52,17 @@ class App {
         $this->actionHandler->setDefaultAction(new TopicList($this->database, $this->user));
         $this->actionHandler->setErrorAction(new InvalidAction());
 
-        $this->actionHandler->addAction('login', new Login($this->request, $this->user));
-        $this->actionHandler->addAction('logout', new Logout($this->user));
-        $this->actionHandler->addAction('profile', new Profile($this->database, $this->request, $this->user));
-        $this->actionHandler->addAction('topic', new Topic($this->database, $this->request, $this->user));
-        $this->actionHandler->addAction('newtopic', new NewTopic($this->database, $this->request, $this->user));
-        $this->actionHandler->addAction('search', new Search($this->database, $this->request));
         $this->actionHandler->addAction('editprofile', new EditProfile($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('deletepost', new DeletePost($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('newtopic', new NewTopic($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('editpost', new EditPost($this->database, $this->request, $this->user));
-        
+        $this->actionHandler->addAction('profile', new Profile($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('newpost', new NewPost($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('topic', new Topic($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('search', new Search($this->database, $this->request));
+        $this->actionHandler->addAction('login', new Login($this->request, $this->user));
         $this->actionHandler->addAction('admin', new AdminPanel($this->user));
+        $this->actionHandler->addAction('logout', new Logout($this->user));
     }
 
     private function renderPage() {

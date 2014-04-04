@@ -97,6 +97,20 @@ class Post {
         $params = array($newContent, $this->postID);
         $this->database->query($query, $params);
     }
+    
+    public static function create(Database $database, User $user, $topicID, $replyToNumber, $content) {
+        $memberID = $user->getUserID();
+        $timeSent = time();
+        
+        $query = <<<SQL
+        insert into post (memberid, topicid, postnumber, replytonumber, content, timesent)
+            select ?, ?, max(postnumber) + 1, ?, ?, ?
+            from post
+            where topicid=?;
+SQL;
+        $params = array($memberID, $topicID, $replyToNumber, $content, $timeSent, $topicID);
+        $database->query($query, $params);
+    }
 
     private function loadMemberID() {
         $query = 'select memberid from post where postid=?;';
