@@ -40,7 +40,7 @@ class App {
         $this->request = new Request();
         $this->user = new User($this->database);
         $this->renderer = new Renderer();
-        
+
         $this->actionHandler = new ActionHandler($this->request, $this->user, $this->renderer);
         $this->addActions();
         $this->actionHandler->executeRequestedAction();
@@ -67,15 +67,15 @@ class App {
 
     private function renderPage() {
         $action = $this->actionHandler->getRequestedAction();
-        
+
         $this->renderer->addVar('admin', $this->user->isAdmin());
         $this->renderer->addVar('loggedIn', $this->user->isLoggedIn());
         $this->renderer->addVar('username', $this->user->getUsername());
         $this->renderer->addVar('title', $action->getTitle());
         $this->renderer->addVar('message', $this->request->getGetData('message'));
-        
+
         $action->setVars();
-        
+
         $this->renderer->renderPage($action->getView());
     }
 

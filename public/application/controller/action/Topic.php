@@ -25,20 +25,20 @@ class Topic extends AbstractAction {
 
     public function excute() {
         $this->topicID = $this->request->getGetData('id');
-        
+
         if (!isset($this->topicID)) {
             header('location:' . BASEURL);
             die;
         }
-        
+
         $loader = new TopicModel($this->database, $this->user, $this->topicID);
-        
+
         if (!$loader->canAccess($this->topicID)) {
             // the user cannot access this topic or topic does not exist
             header('location:' . BASEURL . '?message=Virheellinen viestiketju');
             die;
         }
-        
+
         $this->title = $loader->getTitle();
         $this->posts = $this->parsePosts($loader->loadPosts($this->topicID));
     }
@@ -46,6 +46,14 @@ class Topic extends AbstractAction {
     public function setVars() {
         $this->renderer->addVar('posts', $this->posts);
         $this->renderer->addVar('topicID', $this->topicID);
+        if (isset($_SESSION['editPost'])) {
+            $this->renderer->addVar('editPost', $_SESSION['editPost']);
+            $_SESSION['editPost'] = null;
+        }
+        if (isset($_SESSION['replyToNumber'])) {
+            $this->renderer->addVar('replyToNumber', $_SESSION['replyToNumber']);
+            $_SESSION['replyToNumber'] = null;
+        }
     }
 
     public function getTitle() {
@@ -59,17 +67,16 @@ class Topic extends AbstractAction {
     public function requireLogin() {
         return false;
     }
-    
+
     private function parsePosts($posts) {
         $array = array();
-        $postFormatter = new PostFormatter();
         foreach ($posts as $post) {
             $postID = $post->getPostID();
             $postNumber = $post->getPostNumber();
             $replyToNumber = $post->getReplyToNumber();
             $memberID = $post->getMemberID();
             $username = $post->getUsername();
-            $content = $postFormatter->format($post->getContent());
+            $content = PostFormatter::format($post->getContent());
             $timeSent = date('j.n.Y k\l\o H:i', $post->getTimeSent());
             $read = $post->getRead() == 1;
             $canEdit = $post->canEdit($this->user);

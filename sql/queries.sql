@@ -212,5 +212,14 @@ insert into postread
                     where memberid=?
                 );
 
-                
-                
+ 
+
+ 
+/*
+ * LUO UUSI VIESTI
+ */
+
+insert into post (memberid, topicid, postnumber, replytonumber, content, timesent)
+    select ?, ?, max(postnumber) + 1, ?, ?, ?
+    from post
+    where topicid=?;

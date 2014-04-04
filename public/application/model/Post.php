@@ -86,18 +86,33 @@ class Post {
         return $user->isAdmin() || $user->getUserID() == $this->memberID;
     }
 
+    /**
+     * Deletes this post
+     */
     public function delete() {
         $query = 'delete from post where postid=?;';
         $params = array($this->postID);
         $this->database->query($query, $params);
     }
     
+    /**
+     * Edits this post
+     * @param string $newContent
+     */
     public function edit($newContent) {
         $query = 'update post set content=? where postid=?;';
         $params = array($newContent, $this->postID);
         $this->database->query($query, $params);
     }
     
+    /**
+     * Creates a new post
+     * @param Database $database
+     * @param User $user
+     * @param int $topicID
+     * @param int $replyToNumber
+     * @param string $content
+     */
     public static function create(Database $database, User $user, $topicID, $replyToNumber, $content) {
         $memberID = $user->getUserID();
         $timeSent = time();

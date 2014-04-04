@@ -49,5 +49,6 @@
         </div>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <script src="<?php echo BASEURL; ?>js/bootstrap.min.js"></script>
+        <script src="<?php echo BASEURL; ?>js/script.js"></script>
     </body>
 </html>

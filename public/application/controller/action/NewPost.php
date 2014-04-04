@@ -3,6 +3,7 @@
 namespace application\controller\action;
 
 use application\controller\Request;
+use application\controller\Validator;
 use application\model\Database;
 use application\model\Post;
 use application\model\Topic;
@@ -33,19 +34,27 @@ class NewPost extends AbstractAction {
         }
 
         $topic = new Topic($this->database, $this->user, $topicID);
-        
+
         if (!$topic->canAccess()) {
             header('location:' . BASEURL);
             die;
         }
-        
-        Post::create($this->database, $this->user, $topicID, $replyToNumber, $content);
-        
-        header('location:' . $_SERVER['HTTP_REFERER']);
+
+        if (!Validator::isValidPost($content)) {
+            $_SESSION['editPost'] = $content;
+            $_SESSION['replyToNumber'] = $replyToNumber;
+            header('location:' . BASEURL . "?action=topic&id={$topicID}&message=Viestissä tulee olla vähintään 6 merkkiä.");
+            die;
+        }
+
+        Post::create($this->database, $this->user, $topicID, $replyToNumber == -1 ? null : $replyToNumber, $content);
+
+        header('location:' . BASEURL . "?action=topic&id={$topicID}");
+        die;
     }
 
     public function setVars() {
-        
+
     }
 
     public function getTitle() {
