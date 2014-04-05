@@ -10,6 +10,9 @@
         <link rel="stylesheet" href="<?php echo BASEURL; ?>css/default.css">
     </head>
     <body>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+        <script src="<?php echo BASEURL; ?>js/bootstrap.min.js"></script>
+        <script src="<?php echo BASEURL; ?>js/script.js"></script>
         <div class="forum-top">
             <div class="container">
                 <div class="forum-nav">
@@ -33,6 +36,7 @@
                         </div>
                     <?php else: ?>
                         <a class="forum-top-item" href="<?php echo BASEURL; ?>?action=login">Kirjaudu sisään</a>
+                        <a class="forum-top-item" href="<?php echo BASEURL; ?>?action=register">Rekisteröidy</a>
                     <?php endif ?>
                 </div>
                 <div class="forum-clear"></div>
@@ -47,8 +51,5 @@
             <?php endif; ?>
             <?php require $this->innerPage; ?>
         </div>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-        <script src="<?php echo BASEURL; ?>js/bootstrap.min.js"></script>
-        <script src="<?php echo BASEURL; ?>js/script.js"></script>
     </body>
 </html>

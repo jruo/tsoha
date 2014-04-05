@@ -36,14 +36,14 @@ class NewPost extends AbstractAction {
         $topic = new Topic($this->database, $this->user, $topicID);
 
         if (!$topic->canAccess()) {
-            header('location:' . BASEURL);
+            header('location:' . BASEURL . '?message=Virheellinen viestiketju');
             die;
         }
 
         if (!Validator::isValidPost($content)) {
             $_SESSION['editPost'] = $content;
             $_SESSION['replyToNumber'] = $replyToNumber;
-            header('location:' . BASEURL . "?action=topic&id={$topicID}&message=Viestissä tulee olla vähintään 6 merkkiä.");
+            header('location:' . BASEURL . "?action=topic&id={$topicID}&message=Viestissä tulee olla vähintään 6 ja enintään 10,000 merkkiä.");
             die;
         }
 

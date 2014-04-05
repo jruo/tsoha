@@ -24,7 +24,7 @@ create table Post (
 
 create table MemberGroup (
     memberGroupID serial primary key,
-    groupName varchar(100) not null
+    groupName varchar(100) not null unique
 );
 
 create table MemberInfo (
@@ -57,4 +57,4 @@ create table MemberOfGroup (
     primary key(memberID, memberGroupID)
 );
 
-insert into MemberGroup values (0, 'Kaikki');
+insert into MemberGroup values (0, 'Kaikki jäsenet');

@@ -31,8 +31,13 @@ class EditProfile extends AbstractAction {
             header('location:' . BASEURL);
             die;
         }
-        
+
         $this->profileInfo = new ProfileInfo($this->database, $this->userID);
+
+        if (!$this->profileInfo->isValidUser()) {
+            header('location:' . BASEURL . '?message=Virheellinen käyttäjä');
+            die;
+        }
     }
 
     public function setVars() {

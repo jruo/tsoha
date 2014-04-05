@@ -30,6 +30,11 @@ class Profile extends AbstractAction {
         }
 
         $this->profileInfo = new ProfileInfo($this->database, $this->userID);
+
+        if (!$this->profileInfo->isValidUser()) {
+            header('location:' . BASEURL . '?message=Virheellinen käyttäjä');
+            die;
+        }
     }
 
     public function setVars() {
@@ -40,8 +45,7 @@ class Profile extends AbstractAction {
         $this->renderer->addVar('gender', $this->profileInfo->getGender() == '1' ? 'Mies' : 'Nainen');
         $this->renderer->addVar('age', $this->profileInfo->getAge());
         $this->renderer->addVar('userID', $this->userID);
-        $this->renderer->addVar('canEdit', $this->userID == $this->user->getUserID()
-                || $this->user->isAdmin());
+        $this->renderer->addVar('canEdit', $this->userID == $this->user->getUserID() || $this->user->isAdmin());
     }
 
     public function getView() {

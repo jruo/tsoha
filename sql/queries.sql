@@ -223,3 +223,14 @@ insert into post (memberid, topicid, postnumber, replytonumber, content, timesen
     select ?, ?, max(postnumber) + 1, ?, ?, ?
     from post
     where topicid=?;
+
+
+
+/*
+ * HAE KÄYTTÄJÄN RYHMÄT
+ */
+
+select      membergroup.membergroupid, membergroup.groupname
+from        membergroup, memberofgroup
+where       membergroup.membergroupid=memberofgroup.membergroupid
+    and     memberid=?;

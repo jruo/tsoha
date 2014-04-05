@@ -1,7 +1,7 @@
 <?php defined('INDEX') or die; ?>
 <div class="panel panel-primary">
     <div class="panel-heading">Julkiset viestiketjut</div>
-    <table class="table-striped table">
+    <table class="table-striped table topic-table">
         <tr>
             <th>Viestiketju</th>
             <th class="col-md-1">Viestejä</th>
@@ -22,7 +22,7 @@
 <?php if ($this->vars['loggedIn']) : ?>
     <div class="panel panel-primary">
         <div class="panel-heading">Sisäiset viestiketjut</div>
-        <table class="table-striped table">
+        <table class="table-striped table topic-table">
             <tr>
                 <th>Viestiketju</th>
                 <th class="col-md-1">Viestejä</th>
@@ -40,4 +40,5 @@
             <?php endforeach; ?>
         </table>
     </div>
-<?php endif;
+    <?php
+ endif;

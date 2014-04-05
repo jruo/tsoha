@@ -12,9 +12,20 @@ class Validator {
      * @return boolean
      */
     public static function isValidPost($post) {
-        $post = str_replace(' ', '', $post);
-        $post = str_replace("\n", '', $post);
-        return strlen($post) > 5 && strlen($post) < 5000;
+        $min = strlen(str_replace("\n", '', str_replace(' ', '', $post))) > 5;
+        $max = strlen($post) <= 10000;
+        return $min && $max;
+    }
+
+    /**
+     * Checks if the given title is valid
+     * @param string $title
+     * @return boolean
+     */
+    public static function isValidTitle($title) {
+        $min = strlen(str_replace("\n", '', str_replace(' ', '', $title))) > 5;
+        $max = strlen($title) <= 100;
+        return $min && $max;
     }
 
     /**

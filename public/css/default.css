@@ -50,3 +50,7 @@
 .forum-clear {
     clear: both;
 }
+
+.topic-table td {
+    overflow: hidden;
+}

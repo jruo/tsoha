@@ -8,6 +8,7 @@ class ProfileInfo {
 
     private $database;
     private $userID;
+    private $validUser;
     private $username;
     private $timeRegistered;
     private $postCount;
@@ -19,7 +20,7 @@ class ProfileInfo {
     function __construct(Database $database, $userID) {
         $this->database = $database;
         $this->userID = $userID;
-        $this->loadUserInfo();
+        $this->validUser = $this->loadUserInfo();
     }
 
     private function loadUserInfo() {
@@ -45,6 +46,10 @@ SQL;
 
         $params = array($this->userID, $this->userID);
         $results = $this->database->query($query, $params);
+
+        if (count($results) < 1) {
+            return false;
+        }
         $row = $results[0];
 
         $this->username = $row['username'];
@@ -54,6 +59,8 @@ SQL;
         $this->realName = $row['realname'];
         $this->gender = $row['gender'];
         $this->age = $row['age'];
+
+        return true;
     }
 
     public function getUsername() {
@@ -82,6 +89,10 @@ SQL;
 
     public function getAge() {
         return $this->age;
+    }
+
+    public function isValidUser() {
+        return $this->validUser;
     }
 
 }
