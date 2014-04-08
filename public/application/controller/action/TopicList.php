@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Formatter;
 use application\model\Database;
 use application\model\TopicListLoader;
 use application\model\User;
@@ -57,7 +58,7 @@ class TopicList extends AbstractAction {
     private function parseTopics($topics) {
         $array = array();
         foreach ($topics as $topic) {
-            $title = $topic->getTitle();
+            $title = Formatter::escapeText($topic->getTitle());
             $topicID = $topic->getTopicID();
             $postCount = $topic->getPostCount();
             $user = $topic->getLastPostUsername();

@@ -66,10 +66,9 @@ class NewTopic extends AbstractAction {
                 }
             }
         } else {
-            // create public topic;
-            $visibilityPublic = 1;
+            // create public topic
             $this->testPostValidity($topicTitle, $topicContent);
-            $topic = Topic::create($this->database, $this->user, $topicTitle, $topicContent, $visibilityPublic);
+            $topic = Topic::create($this->database, $this->user, $topicTitle, $topicContent, 1);
         }
 
         header('location:' . BASEURL . "?action=topic&id={$topic->getID()}");

@@ -2,7 +2,7 @@
 
 namespace application\controller\action;
 
-use application\controller\PostFormatter;
+use application\controller\Formatter;
 use application\controller\Request;
 use application\model\Database;
 use application\model\Topic as TopicModel;
@@ -39,7 +39,7 @@ class Topic extends AbstractAction {
             die;
         }
 
-        $this->title = $loader->getTitle();
+        $this->title = Formatter::escapeText($loader->getTitle());
         $this->posts = $this->parsePosts($loader->loadPosts($this->topicID));
     }
 
@@ -76,7 +76,7 @@ class Topic extends AbstractAction {
             $replyToNumber = $post->getReplyToNumber();
             $memberID = $post->getMemberID();
             $username = $post->getUsername();
-            $content = PostFormatter::format($post->getContent());
+            $content = Formatter::formatPostContent($post->getContent());
             $timeSent = date('j.n.Y k\l\o H:i', $post->getTimeSent());
             $read = $post->getRead() == 1;
             $canEdit = $post->canEdit($this->user);
