@@ -234,3 +234,24 @@ select      membergroup.membergroupid, membergroup.groupname
 from        membergroup, memberofgroup
 where       membergroup.membergroupid=memberofgroup.membergroupid
     and     memberid=?;
+
+
+/*
+ * POISTA TYHJÄT VIESTIKETJUT
+ */
+
+delete from topic
+where topicid in (
+    select topicid
+    from (
+        select topic.topicid, coalesce(postcount, 0) as postcount
+        from topic
+        left join (
+            select topicid, count(*) as postcount
+            from post
+            group by topicid
+        ) as postcount
+        on topic.topicid=postcount.topicid
+    ) as topicpostcount
+    where postcount=0
+);

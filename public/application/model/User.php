@@ -58,7 +58,7 @@ class User {
     public function login($username, $password) {
         session_regenerate_id(true);
 
-        $query = 'SELECT memberid, password, salt, admin FROM Member WHERE username=?;';
+        $query = 'SELECT username, memberid, password, salt, admin FROM Member WHERE lower(username)=lower(?);';
         $params = array($username);
         $results = $this->database->query($query, $params);
 
@@ -70,6 +70,7 @@ class User {
         $passwordHashFromDB = $row['password'];
         $saltFromDB = $row['salt'];
         $userID = $row['memberid'];
+        $username = $row['username'];
         $admin = $row['admin'];
 
         $givenPassword = new Password($password);
@@ -79,6 +80,42 @@ class User {
         }
         return false;
     }
+    
+    public function logout() {
+        session_destroy();
+    }
+    
+    public static function create(Database $database, $username, $passwordString) {
+        // check that the username is not already in use
+        $query = 'select username from member where lower(username)=lower(?);';
+        $params = array($username);
+        $results = $database->query($query, $params);
+        if (count($results) != 0) {
+            return false;
+        }
+        
+        // generate hash and salt
+        $password = new Password($passwordString);
+        $generated = $password->generateHashAndSalt();
+        $hash = $generated[0];
+        $salt = $generated[1];
+        
+        // create the user
+        $query = 'insert into member (username, password, salt) values (?, ?, ?) returning memberid;';
+        $params = array($username, $hash, $salt);
+        $results = $database->query($query, $params);
+        
+        // create the user's profile
+        $userID = $results[0]['memberid'];
+        $query = 'insert into memberinfo (memberid, timeregistered) values (?, ?);';
+        $params = array($userID, time());
+        $database->query($query, $params);
+        
+        // add the user to the default user group
+        MemberGroup::addUserToGroup($database, 0, $userID);
+        
+        return true;
+    }
 
     private function setSessionValues($username, $userid, $admin) {
         $_SESSION['username'] = $username;
@@ -87,8 +124,5 @@ class User {
         $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
     }
 
-    public function logout() {
-        session_destroy();
-    }
 
 }

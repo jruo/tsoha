@@ -145,6 +145,28 @@ SQL;
         }
         return null;
     }
+    
+    public static function deleteEmptyTopics(Database $database) {
+        $query = <<<SQL
+        delete from topic
+        where topicid in (
+            select topicid
+            from (
+                select topic.topicid, coalesce(postcount, 0) as postcount
+                from topic
+                left join (
+                    select topicid, count(*) as postcount
+                    from post
+                    group by topicid
+                ) as postcount
+                on topic.topicid=postcount.topicid
+            ) as topicpostcount
+            where postcount=0
+        );
+SQL;
+        $params = array();
+        $database->query($query, $params);
+    }
 
     private function parsePosts(array $results) {
         $posts = array();

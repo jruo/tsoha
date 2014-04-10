@@ -93,6 +93,7 @@ class Post {
         $query = 'delete from post where postid=?;';
         $params = array($this->postID);
         $this->database->query($query, $params);
+        Topic::deleteEmptyTopics($this->database); // this might have been the last post of the topic
     }
     
     /**

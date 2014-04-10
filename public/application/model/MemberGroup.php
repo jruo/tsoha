@@ -43,17 +43,23 @@ SQL;
      * @return boolean
      */
     public static function addGroup(Database $database, $groupName) {
-
+        $query = 'insert into membergroup (groupname) values (?);';
+        $params = array($groupName);
+        $database->query($query, $params);
+        return $database->querySucceeded();
     }
 
     /**
      *
-     * @param Database $databse
+     * @param Database $database
      * @param int $groupID
      * @return boolean
      */
-    public static function removeGroup(Database $databse, $groupID) {
-
+    public static function removeGroup(Database $database, $groupID) {
+        $query = 'delete from membergroup where membergroupid=?;';
+        $params = array($groupID);
+        $database->query($query, $params);
+        return $database->querySucceeded();
     }
 
     /**
@@ -64,7 +70,10 @@ SQL;
      * @return boolean
      */
     public static function addUserToGroup(Database $database, $groupID, $userID) {
-
+        $query = 'insert into memberofgroup values (?, ?);';
+        $params = array($userID, $groupID);
+        $database->query($query, $params);
+        return $database->querySucceeded();
     }
 
     /**
@@ -74,7 +83,10 @@ SQL;
      * @param type $userID
      */
     public static function removeUserFromGroup(Database $database, $groupID, $userID) {
-
+        $query = 'delete from memberofgroup where memberid=? and membergroupid=?;';
+        $params = array($userID, $groupID);
+        $database->query($query, $params);
+        return $database->querySucceeded();
     }
 
     private static function parseGroups($rows) {

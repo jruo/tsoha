@@ -13,6 +13,7 @@ use application\controller\action\Logout;
 use application\controller\action\NewPost;
 use application\controller\action\NewTopic;
 use application\controller\action\Profile;
+use application\controller\action\Register;
 use application\controller\action\Search;
 use application\controller\action\Topic;
 use application\controller\action\TopicList;
@@ -56,6 +57,7 @@ class App {
         $this->actionHandler->addAction('deletepost', new DeletePost($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('newtopic', new NewTopic($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('editpost', new EditPost($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('register', new Register($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('profile', new Profile($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('newpost', new NewPost($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('topic', new Topic($this->database, $this->request, $this->user));

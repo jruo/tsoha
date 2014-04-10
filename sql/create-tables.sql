@@ -3,7 +3,8 @@ create table Member (
     username varchar(20) not null unique,
     password varchar(128) not null,
     salt varchar(128) not null,
-    admin int not null default 0
+    admin int not null default 0,
+    deleted int not null default 0
 );
 
 create table Topic (
@@ -28,7 +29,7 @@ create table MemberGroup (
 );
 
 create table MemberInfo (
-    memberID int primary key references Member(memberID) on delete cascade,
+    memberID int primary key references Member(memberID),
     timeRegistered int not null,
     email varchar(500),
     realName varchar(500),
