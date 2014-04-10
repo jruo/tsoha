@@ -80,11 +80,18 @@ class User {
         }
         return false;
     }
-    
+
     public function logout() {
         session_destroy();
     }
-    
+
+    /**
+     * Creates a new user
+     * @param Database $database
+     * @param string $username
+     * @param string $passwordString
+     * @return boolean
+     */
     public static function create(Database $database, $username, $passwordString) {
         // check that the username is not already in use
         $query = 'select username from member where lower(username)=lower(?);';
@@ -93,28 +100,63 @@ class User {
         if (count($results) != 0) {
             return false;
         }
-        
+
         // generate hash and salt
         $password = new Password($passwordString);
         $generated = $password->generateHashAndSalt();
         $hash = $generated[0];
         $salt = $generated[1];
-        
+
         // create the user
         $query = 'insert into member (username, password, salt) values (?, ?, ?) returning memberid;';
         $params = array($username, $hash, $salt);
         $results = $database->query($query, $params);
-        
+
         // create the user's profile
         $userID = $results[0]['memberid'];
         $query = 'insert into memberinfo (memberid, timeregistered) values (?, ?);';
         $params = array($userID, time());
         $database->query($query, $params);
-        
+
         // add the user to the default user group
         MemberGroup::addUserToGroup($database, 0, $userID);
-        
+
         return true;
+    }
+
+    /**
+     * Checks if the given password is
+     * @param Database $database
+     * @param int $userID
+     * @param string $passwordString
+     */
+    public static function isCorrectPassword(Database $database, $userID, $passwordString) {
+        $query = 'select password, salt from member where memberid=?;';
+        $params = array($userID);
+        $results = $database->query($query, $params);
+        
+        $passwordFromDB = $results[0]['password'];
+        $saltFromDB = $results[0]['salt'];
+        
+        $password = new Password($passwordString);
+        return $password->matches($passwordFromDB, $saltFromDB);
+    }
+    
+    /**
+     * Sets a new password for the given user
+     * @param Database $database
+     * @param int $userID
+     * @param string $passwordString
+     */
+    public static function setPassword(Database $database, $userID, $passwordString) {
+        $password = new Password($passwordString);
+        $generated = $password->generateHashAndSalt();
+        $hash = $generated[0];
+        $salt = $generated[1];
+        
+        $query = 'update member set password=?, salt=? where memberid=?;';
+        $params = array($hash, $salt, $userID);
+        $database->query($query, $params);
     }
 
     private function setSessionValues($username, $userid, $admin) {
@@ -123,6 +165,5 @@ class User {
         $_SESSION['admin'] = $admin;
         $_SESSION['ip'] = $_SERVER['REMOTE_ADDR'];
     }
-
 
 }

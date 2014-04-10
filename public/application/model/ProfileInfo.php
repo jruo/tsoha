@@ -62,6 +62,31 @@ SQL;
 
         return true;
     }
+    
+    public function setEmail($email) {
+        $query = 'update memberinfo set email=? where memberid=?;';
+        $params = array($email, $this->userID);
+        $this->database->query($query, $params);
+        $this->email = $email;
+    }
+    
+    public function setRealName($realName) {
+        $query = 'update memberinfo set realname=? where memberid=?;';
+        $params = array($realName, $this->userID);
+        $this->database->query($query, $params);
+    }
+    
+    public function setAge($age) {
+        $query = 'update memberinfo set age=? where memberid=?;';
+        $params = array($age, $this->userID);
+        $this->database->query($query, $params);
+    }
+    
+    public function setGender($gender) {
+        $query = 'update memberinfo set gender=? where memberid=?;';
+        $params = array($gender, $this->userID);
+        $this->database->query($query, $params);
+    }
 
     public function getUsername() {
         return $this->username;

@@ -75,6 +75,7 @@ class App {
         $this->renderer->addVar('username', $this->user->getUsername());
         $this->renderer->addVar('title', $action->getTitle());
         $this->renderer->addVar('message', $this->request->getGetData('message'));
+        $this->renderer->addVar('info', $this->request->getGetData('info'));
 
         $action->setVars();
 

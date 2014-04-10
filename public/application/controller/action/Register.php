@@ -55,7 +55,7 @@ class Register extends AbstractAction {
         if (User::create($this->database, $username, $password1)) {
             // success, also log the user in
             $this->user->login($username, $password1);
-            header('location:' . BASEURL);
+            header('location:' . BASEURL . '?info=Rekisteröinti onnistui');
             die;
         } else {
             // fail, the username is most likely already in use

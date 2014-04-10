@@ -49,6 +49,9 @@
             <?php if (isset($this->vars['message'])) : ?>
                 <div class="alert alert-danger"><?php echo $this->vars['message']; ?></div>
             <?php endif; ?>
+            <?php if (isset($this->vars['info'])) : ?>
+                <div class="alert alert-info"><?php echo $this->vars['info']; ?></div>
+            <?php endif; ?>
             <?php require $this->innerPage; ?>
         </div>
     </body>

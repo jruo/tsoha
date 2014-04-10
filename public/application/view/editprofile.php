@@ -5,7 +5,7 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="inputEmail">Sähköposti</label>
                 <div class="col-sm-4">
-                    <input class="form-control" type="email" id="inputEmail" value="<?php echo $this->vars['email']; ?>"/>
+                    <input class="form-control" type="email" name="email" id="inputEmail" value="<?php echo $this->vars['email']; ?>"/>
                 </div>
                 <div class="col-sm-offset-2 col-sm-4">
                     <label class="control-label">Salasanan vaihto</label>
@@ -14,35 +14,35 @@
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="inputRealName">Oikea nimi</label>
                 <div class="col-sm-4">
-                    <input class="form-control" type="text" id="inputRealName" value="<?php echo $this->vars['realName']; ?>"/>
+                    <input class="form-control" type="text" name="realName" id="inputRealName" value="<?php echo $this->vars['realName']; ?>"/>
                 </div>
                 <label class="col-sm-2 control-label" for="inputPasswordOld">Vanha salasana</label>
                 <div class="col-sm-3">
-                    <input class="form-control" type="password" id="inputPasswordOld"/>
+                    <input class="form-control" type="password" name="passwordOld" id="inputPasswordOld"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="inputGender">Sukupuoli</label>
                 <div class="col-sm-4">
-                    <select id="inputGender" class="form-control">
-                        <option value=""  <?php echo $this->vars['gender'] == 'null' ? 'selected' : ''; ?>>-</option>
+                    <select id="inputGender" name="gender" class="form-control">
+                        <option value="null"  <?php echo $this->vars['gender'] == null ? 'selected' : ''; ?>>-</option>
                         <option value="1" <?php echo $this->vars['gender'] == '1' ? 'selected' : ''; ?>>Mies</option>
                         <option value="0" <?php echo $this->vars['gender'] == '0' ? 'selected' : ''; ?>>Nainen</option>
                     </select>
                 </div>
                 <label class="col-sm-2 control-label" for="inputPasswordNew1">Uusi salasana</label>
                 <div class="col-sm-3">
-                    <input class="form-control" type="password" id="inputPasswordNew1"/>
+                    <input class="form-control" type="password" name="password1" id="inputPasswordNew1"/>
                 </div>
             </div>
             <div class="form-group">
                 <label class="col-sm-2 control-label" for="inputAge">Ikä</label>
                 <div class="col-sm-4">
-                    <input class="form-control" type="text" id="inputAge" value="<?php echo $this->vars['age']; ?>"/>
+                    <input class="form-control" type="text" name="age" id="inputAge" value="<?php echo $this->vars['age']; ?>"/>
                 </div>
                 <label class="col-sm-2 control-label" for="inputPasswordNew2">Salasana uudelleen</label>
                 <div class="col-sm-3">
-                    <input class="form-control" type="password" id="inputPasswordNew2"/>
+                    <input class="form-control" type="password" name="password2" id="inputPasswordNew2"/>
                 </div>
             </div>
             <div class="form-group">

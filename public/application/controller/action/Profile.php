@@ -39,11 +39,22 @@ class Profile extends AbstractAction {
     }
 
     public function setVars() {
+        switch ($this->profileInfo->getGender()) {
+            case '1':
+                $gender = 'Mies';
+                break;
+            case '0':
+                $gender = 'Nainen';
+                break;
+            default:
+                $gender = null;
+                break;
+        }
         $this->renderer->addVar('timeRegistered', date('j.n.Y k\l\o H:i', $this->profileInfo->getTimeRegistered()));
         $this->renderer->addVar('postCount', $this->profileInfo->getPostCount());
         $this->renderer->addVar('email', Formatter::escapeText($this->profileInfo->getEmail()));
         $this->renderer->addVar('realName', Formatter::escapeText($this->profileInfo->getRealName()));
-        $this->renderer->addVar('gender', $this->profileInfo->getGender() == '1' ? 'Mies' : 'Nainen');
+        $this->renderer->addVar('gender', $gender);
         $this->renderer->addVar('age', Formatter::escapeText($this->profileInfo->getAge()));
         $this->renderer->addVar('userID', $this->userID);
         $this->renderer->addVar('canEdit', $this->userID == $this->user->getUserID() || $this->user->isAdmin());
