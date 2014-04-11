@@ -23,6 +23,7 @@ class Register extends AbstractAction {
 
     public function excute() {
         if ($this->user->isLoggedIn()) {
+            // already logged in? no need to register then
             header('location:' . BASEURL);
         }
 
@@ -31,6 +32,7 @@ class Register extends AbstractAction {
         $password2 = $this->request->getPostData('password2');
 
         if (!isset($username, $password1, $password2)) {
+            // nothing posted?
             return;
         }
 

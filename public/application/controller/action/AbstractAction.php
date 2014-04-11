@@ -13,6 +13,10 @@ abstract class AbstractAction {
      */
     public $renderer;
     
+    /**
+     * Sets the renderer for this action
+     * @param Renderer $renderer
+     */
     public function setRenderer(Renderer $renderer) {
         $this->renderer = $renderer;
     }
@@ -23,7 +27,7 @@ abstract class AbstractAction {
     public abstract function excute();
     
     /**
-     * Init the variables for the view;
+     * Init the variables for the renderer;
      */
     public abstract function setVars();
 
@@ -38,7 +42,7 @@ abstract class AbstractAction {
     public abstract function getTitle();
     
     /**
-     * Checks is this action needs the user to be logged in
+     * Returns true if this action needs a valid logged in user
      * @return boolean
      */
     public abstract function requireLogin();

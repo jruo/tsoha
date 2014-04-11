@@ -33,6 +33,11 @@ class Formatter {
         '<a href="http://$1">$2</a>'
     );
 
+    /**
+     * Formats the given post content (BBCode, line breaks, html escape)
+     * @param string $text
+     * @return string
+     */
     public static function formatPostContent($text) {
         $text = self::escapeText($text);
         $text = str_replace("\n", '<br/>', $text);
@@ -40,6 +45,11 @@ class Formatter {
         return $text;
     }
     
+    /**
+     * Escapes the given html string
+     * @param string $text
+     * @return string
+     */
     public static function escapeText($text) {
         return htmlspecialchars($text);
     }

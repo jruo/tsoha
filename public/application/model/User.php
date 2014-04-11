@@ -53,9 +53,10 @@ class User {
      * Logs the user in
      * @param string $username Username
      * @param string $password Password
+     * @param boolean $remember Keep logged in?
      * @return boolean true if succeeded, false otherwise
      */
-    public function login($username, $password) {
+    public function login($username, $password, $remember = false) {
         session_regenerate_id(true);
 
         $query = 'SELECT username, memberid, password, salt, admin FROM Member WHERE lower(username)=lower(?);';
@@ -75,7 +76,7 @@ class User {
 
         $givenPassword = new Password($password);
         if ($givenPassword->matches($passwordHashFromDB, $saltFromDB)) {
-            $this->setSessionValues($username, $userID, $admin);
+            $this->setSessionValues($username, $userID, $admin, $remember);
             return true;
         }
         return false;
@@ -159,7 +160,18 @@ class User {
         $database->query($query, $params);
     }
 
-    private function setSessionValues($username, $userid, $admin) {
+    /**
+     * Sets the session values
+     * @param string $username
+     * @param string $userid
+     * @param string $admin
+     * @param boolean $remember
+     */
+    private function setSessionValues($username, $userid, $admin, $remember) {
+        if ($remember) {
+            session_set_cookie_params(60 * 60 * 24 * 14);
+            session_regenerate_id(true);
+        }
         $_SESSION['username'] = $username;
         $_SESSION['userid'] = $userid;
         $_SESSION['admin'] = $admin;

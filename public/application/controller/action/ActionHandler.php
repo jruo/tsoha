@@ -33,7 +33,7 @@ class ActionHandler {
 
     /**
      * Adds a new action
-     * @param string $actionString Name of the action
+     * @param string $actionString Name/URL of the action
      * @param AbstractAction $action Action
      */
     public function addAction($actionString, AbstractAction $action) {

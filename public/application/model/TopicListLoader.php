@@ -14,6 +14,10 @@ class TopicListLoader {
         $this->user = $user;
     }
 
+    /**
+     * Returns all the public Topics
+     * @return array
+     */
     public function getPublicTopics() {
         if ($this->user->isLoggedIn()) {
             $query = <<<SQL
@@ -77,6 +81,10 @@ SQL;
         return $this->parseTopics($results);
     }
 
+    /**
+     * Returns all the private topics
+     * @return array
+     */
     public function getPrivateTopics() {
         if (!$this->user->isLoggedIn()) {
             return;

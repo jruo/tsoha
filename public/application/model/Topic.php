@@ -106,6 +106,11 @@ SQL;
         return $this->parsePosts($results);
     }
 
+    /**
+     * Gives an access to this topic for the given membergroup
+     * @param int $groupID
+     * @return boolean
+     */
     public function giveAccessToGroup($groupID) {
         $query = 'insert into topicvisible values (?, ?);';
         $params = array($this->topicID, $groupID);
@@ -146,6 +151,10 @@ SQL;
         return null;
     }
     
+    /**
+     * Deletes all topics that have no posts in them
+     * @param Database $database
+     */
     public static function deleteEmptyTopics(Database $database) {
         $query = <<<SQL
         delete from topic

@@ -128,6 +128,10 @@ SQL;
         $database->query($query, $params);
     }
 
+    /**
+     * Loads the memberID of this post in case it wasn't provided in the constructor
+     * @return int
+     */
     private function loadMemberID() {
         $query = 'select memberid from post where postid=?;';
         $params = array($this->postID);
@@ -135,6 +139,10 @@ SQL;
         return $results[0]['memberid'];
     }
     
+    /**
+     * Loads the content of this post in case it wasn't provided in the constructor
+     * @return string
+     */
     private function loadContent() {
         $query = 'select content from post where postid=?;';
         $params = array($this->postID);

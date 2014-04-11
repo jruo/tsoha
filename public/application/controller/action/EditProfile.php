@@ -49,9 +49,11 @@ class EditProfile extends AbstractAction {
         $password2 = $this->request->getPostData('password2');
 
         if (!isset($email, $realName, $gender, $age, $passwordOld, $password1, $password2)) {
+            // nothing was posted
             return;
         }
 
+        // the user wanted to change something
         if ($email !== '') {
             $this->profileInfo->setEmail($email);
         }
@@ -69,10 +71,12 @@ class EditProfile extends AbstractAction {
         }
 
         if ($passwordOld == '' && $password1 == '' && $password2 == '') {
+            // the user didn't want to change password
             header('location:' . BASEURL . "?action=profile&id={$this->userID}&info=Profiili tallennettu");
             die;
         }
         
+        // the user wanted to change password
         if (!User::isCorrectPassword($this->database, $this->userID, $passwordOld)) {
             header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&info=Profiili tallennettu&message=Vanha salasana on väärä");
             die;
@@ -88,6 +92,7 @@ class EditProfile extends AbstractAction {
             die;
         }
         
+        // ok, change password
         User::setPassword($this->database, $this->userID, $password1);
         
         header('location:' . BASEURL . "?action=profile&id={$this->userID}&info=Profiili tallennettu ja salasana vaihdettu");

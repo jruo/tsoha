@@ -34,6 +34,9 @@ class App {
     private $user;
     private $renderer;
 
+    /**
+     * Starts the application
+     */
     public function run() {
         session_start();
 
@@ -49,6 +52,9 @@ class App {
         $this->renderPage();
     }
 
+    /**
+     * Loads all the available actions
+     */
     private function addActions() {
         $this->actionHandler->setDefaultAction(new TopicList($this->database, $this->user));
         $this->actionHandler->setErrorAction(new InvalidAction());
@@ -67,6 +73,9 @@ class App {
         $this->actionHandler->addAction('logout', new Logout($this->user));
     }
 
+    /**
+     * Renders the current view
+     */
     private function renderPage() {
         $action = $this->actionHandler->getRequestedAction();
 

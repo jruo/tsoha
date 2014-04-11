@@ -21,6 +21,10 @@ class Renderer {
         $this->vars[$key] = $value;
     }
 
+    /**
+     * Renders the given page
+     * @param string $page
+     */
     public function renderPage($page) {
         $this->innerPage = $page;
         require BASEDIR . '/application/view/template.php';

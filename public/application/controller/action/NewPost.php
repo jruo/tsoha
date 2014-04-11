@@ -36,6 +36,7 @@ class NewPost extends AbstractAction {
         $topic = new Topic($this->database, $this->user, $topicID);
 
         if (!$topic->canAccess()) {
+            // the user can't access this topic or it does not exist
             header('location:' . BASEURL . '?message=Virheellinen viestiketju');
             die;
         }
@@ -47,6 +48,7 @@ class NewPost extends AbstractAction {
             die;
         }
 
+        // ok
         Post::create($this->database, $this->user, $topicID, $replyToNumber == -1 ? null : $replyToNumber, $content);
 
         header('location:' . BASEURL . "?action=topic&id={$topicID}");

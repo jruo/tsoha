@@ -23,6 +23,10 @@ class ProfileInfo {
         $this->validUser = $this->loadUserInfo();
     }
 
+    /**
+     * Loads the info
+     * @return boolean
+     */
     private function loadUserInfo() {
         $query = <<<SQL
         select      member.username, member.memberid, memberinfo.timeregistered,
@@ -63,6 +67,10 @@ SQL;
         return true;
     }
     
+    /**
+     * Sets the email
+     * @param string $email
+     */
     public function setEmail($email) {
         $query = 'update memberinfo set email=? where memberid=?;';
         $params = array($email, $this->userID);
@@ -70,18 +78,30 @@ SQL;
         $this->email = $email;
     }
     
+    /**
+     * Sets the real name
+     * @param string $realName
+     */
     public function setRealName($realName) {
         $query = 'update memberinfo set realname=? where memberid=?;';
         $params = array($realName, $this->userID);
         $this->database->query($query, $params);
     }
     
+    /**
+     * Sets the age
+     * @param string $age
+     */
     public function setAge($age) {
         $query = 'update memberinfo set age=? where memberid=?;';
         $params = array($age, $this->userID);
         $this->database->query($query, $params);
     }
     
+    /**
+     * Sets the gender
+     * @param string $gender
+     */
     public function setGender($gender) {
         $query = 'update memberinfo set gender=? where memberid=?;';
         $params = array($gender, $this->userID);
