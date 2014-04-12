@@ -25,13 +25,14 @@ class Login extends AbstractAction {
 
         $username = $this->request->getPostData('username');
         $password = $this->request->getPostData('password');
+        $remember = $this->request->getPostData('remember');
 
         if (!isset($username, $password)) {
             return; // credentials were not sent, do nothing (just display the form)
         }
 
         $baseURL = BASEURL;
-        if ($this->user->login($username, $password)) {
+        if ($this->user->login($username, $password, $remember == 'true')) {
             // login succesful, redirect to home page
             header("location:{$baseURL}");
             die;
@@ -41,9 +42,9 @@ class Login extends AbstractAction {
             die;
         }
     }
-    
+
     public function setVars() {
-        
+
     }
 
     public function getView() {
@@ -53,8 +54,9 @@ class Login extends AbstractAction {
     public function getTitle() {
         return 'Kirjaudu sisään';
     }
-    
+
     public function requireLogin() {
         return false;
     }
+
 }

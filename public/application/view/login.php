@@ -19,7 +19,7 @@
             <div class="form-group">
                 <label for="remember" class="col-sm-2 control-label">Muista minut?</label>
                 <div class="col-sm-10">
-                    <input type="checkbox" class="checkbox" id="remember">
+                    <input type="checkbox" class="checkbox" id="remember" name="remember" value="true">
                 </div>
             </div>
 
