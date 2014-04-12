@@ -15,8 +15,9 @@ class Post {
     private $content;
     private $timeSent;
     private $read;
+    private $topicID;
 
-    function __construct(Database $database, $postID, $postNumber = null, $replyToNumber = null, $memberID = null, $username = null, $content = null, $timeSent = null, $read = null) {
+    function __construct(Database $database, $postID, $postNumber = null, $replyToNumber = null, $memberID = null, $username = null, $content = null, $timeSent = null, $read = null, $topicID = null) {
         $this->database = $database;
         $this->postID = $postID;
         $this->postNumber = $postNumber;
@@ -26,6 +27,7 @@ class Post {
         $this->content = $content;
         $this->timeSent = $timeSent;
         $this->read = $read;
+        $this->topicID = $topicID;
 
         if ($this->memberID == null) {
             $this->memberID = $this->loadMemberID();
@@ -67,6 +69,10 @@ class Post {
         return $this->read;
     }
 
+    public function getTopicID() {
+        return $this->topicID;
+    }
+
     /**
      * Checks if the given user can delete this post
      * @param User $user
@@ -95,7 +101,7 @@ class Post {
         $this->database->query($query, $params);
         Topic::deleteEmptyTopics($this->database); // this might have been the last post of the topic
     }
-    
+
     /**
      * Edits this post
      * @param string $newContent
@@ -105,7 +111,7 @@ class Post {
         $params = array($newContent, $this->postID);
         $this->database->query($query, $params);
     }
-    
+
     /**
      * Creates a new post
      * @param Database $database
@@ -117,7 +123,7 @@ class Post {
     public static function create(Database $database, User $user, $topicID, $replyToNumber, $content) {
         $memberID = $user->getUserID();
         $timeSent = time();
-        
+
         $query = <<<SQL
         insert into post (memberid, topicid, postnumber, replytonumber, content, timesent)
             select ?, ?, max(postnumber) + 1, ?, ?, ?
@@ -126,6 +132,25 @@ class Post {
 SQL;
         $params = array($memberID, $topicID, $replyToNumber, $content, $timeSent, $topicID);
         $database->query($query, $params);
+    }
+
+    public static function parsePostsFromDatabaseRows(Database $database, array $databaseRows) {
+        $posts = array();
+
+        foreach ($databaseRows as $row) {
+            $postID = $row['postid'];
+            $memberID = $row['memberid'];
+            $content = $row['content'];
+            $timesent = $row['timesent'];
+            $postNumber = $row['postnumber'];
+            $replyToNumber = $row['replytonumber'];
+            $read = isset($row['read']) ? $row['read'] : null;
+            $username = isset($row['username']) ? $row['username'] : null;
+            $topicID = isset($row['topicid']) ? $row['topicid'] : null;
+            $posts[] = new self($database, $postID, $postNumber, $replyToNumber, $memberID, $username, $content, $timesent, $read, $topicID);
+        }
+
+        return $posts;
     }
 
     /**
@@ -138,7 +163,7 @@ SQL;
         $results = $this->database->query($query, $params);
         return $results[0]['memberid'];
     }
-    
+
     /**
      * Loads the content of this post in case it wasn't provided in the constructor
      * @return string

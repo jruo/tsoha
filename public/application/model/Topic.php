@@ -103,7 +103,8 @@ SQL;
             $this->database->query($query, $params);
         }
 
-        return $this->parsePosts($results);
+//        return $this->parsePosts($results);
+        return Post::parsePostsFromDatabaseRows($this->database, $results);
     }
 
     /**
@@ -150,7 +151,7 @@ SQL;
         }
         return null;
     }
-    
+
     /**
      * Deletes all topics that have no posts in them
      * @param Database $database
@@ -175,24 +176,6 @@ SQL;
 SQL;
         $params = array();
         $database->query($query, $params);
-    }
-
-    private function parsePosts(array $results) {
-        $posts = array();
-
-        foreach ($results as $row) {
-            $postID = $row['postid'];
-            $memberID = $row['memberid'];
-            $content = $row['content'];
-            $timesent = $row['timesent'];
-            $username = $row['username'];
-            $postNumber = $row['postnumber'];
-            $replyToNumber = $row['replytonumber'];
-            $read = $row['read'];
-            $posts[] = new Post($this->database, $postID, $postNumber, $replyToNumber, $memberID, $username, $content, $timesent, $read);
-        }
-
-        return $posts;
     }
 
 }
