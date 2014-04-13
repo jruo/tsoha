@@ -54,47 +54,46 @@ class EditProfile extends AbstractAction {
         }
 
         // the user wanted to change something
-        if ($email !== '') {
-            $this->profileInfo->setEmail($email);
+
+        if ($gender == 'null') {
+            $gender = null;
         }
-        if ($realName !== '') {
-            $this->profileInfo->setRealName($realName);
-        }
-        if ($gender !== '') {
-            if ($gender == 'null') {
-                $gender = null;
-            }
-            $this->profileInfo->setGender($gender);
-        }
-        if ($age !== '') {
+        $this->profileInfo->setEmail($email);
+        $this->profileInfo->setRealName($realName);
+        $this->profileInfo->setGender($gender);
+        if (is_numeric($age) && $age > 1 && $age <= 2147483647) {
             $this->profileInfo->setAge($age);
+        } else {
+            header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&message=Iän täytyy olla positiivinen kokonaisluku");
+            die;
         }
+
 
         if ($passwordOld == '' && $password1 == '' && $password2 == '') {
             // the user didn't want to change password
             header('location:' . BASEURL . "?action=profile&id={$this->userID}&info=Profiili tallennettu");
             die;
         }
-        
+
         // the user wanted to change password
         if (!User::isCorrectPassword($this->database, $this->userID, $passwordOld)) {
             header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&info=Profiili tallennettu&message=Vanha salasana on väärä");
             die;
         }
-        
+
         if ($password1 !== $password2) {
             header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&info=Profiili tallennettu&message=Salasanat eivät täsmää");
             die;
         }
-        
+
         if (!Validator::isValidPassword($password1)) {
             header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&info=Profiili tallennettu&message=Salasanan tulee olla yli 5 ja alle 500 merkkiä pitkä");
             die;
         }
-        
+
         // ok, change password
         User::setPassword($this->database, $this->userID, $password1);
-        
+
         header('location:' . BASEURL . "?action=profile&id={$this->userID}&info=Profiili tallennettu ja salasana vaihdettu");
         die;
     }

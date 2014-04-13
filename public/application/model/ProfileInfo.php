@@ -66,7 +66,7 @@ SQL;
 
         return true;
     }
-    
+
     /**
      * Sets the email
      * @param string $email
@@ -77,7 +77,7 @@ SQL;
         $this->database->query($query, $params);
         $this->email = $email;
     }
-    
+
     /**
      * Sets the real name
      * @param string $realName
@@ -87,17 +87,20 @@ SQL;
         $params = array($realName, $this->userID);
         $this->database->query($query, $params);
     }
-    
+
     /**
      * Sets the age
      * @param string $age
      */
     public function setAge($age) {
+        if ($age == '') {
+            $age = null;
+        }
         $query = 'update memberinfo set age=? where memberid=?;';
         $params = array($age, $this->userID);
         $this->database->query($query, $params);
     }
-    
+
     /**
      * Sets the gender
      * @param string $gender
