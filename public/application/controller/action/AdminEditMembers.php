@@ -29,13 +29,38 @@ class AdminEditMembers extends AbstractAction {
         }
 
         $option = $this->request->getGetData('option');
+        $value = $this->request->getGetData('value');
         $userID = $this->request->getGetData('userid');
 
         if (!isset($option)) {
             $this->loadMemberList();
-        } else {
-
+            return;
         }
+
+        $mode = $value == '1' ? true : false;
+
+        if ($userID != $this->user->getUserID()) {
+            switch ($option) {
+                case 'setadmin':
+                    User::setAdmin($this->database, $userID, $mode);
+                    header('location:' . BASEURL . '?action=admineditmembers&info=Ylläpitäjyys muutettu');
+                    break;
+                case 'setban':
+                    User::setBan($this->database, $userID, $mode);
+                    header('location:' . BASEURL . '?action=admineditmembers&info=Porttikielto muutettu');
+                    break;
+                case 'delete':
+                    User::delete($this->database, $userID);
+                    header('location:' . BASEURL . '?action=admineditmembers&info=Jäsen poistettu');
+                    break;
+                default:
+                    header('location:' . BASEURL . '?action=admineditmembers&message=Virheellinen toiminto');
+            }
+        } else {
+            header('location:' . BASEURL . '?action=admineditmembers&message=Et voi suorittaa tätä toimintoa itsellesi');
+        }
+
+        die;
     }
 
     private function loadMemberList() {
@@ -47,7 +72,7 @@ class AdminEditMembers extends AbstractAction {
     }
 
     public function setVars() {
-
+        $this->renderer->addVar('memberList', $this->memberList);
     }
 
     public function getTitle() {

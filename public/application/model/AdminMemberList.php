@@ -13,7 +13,7 @@ class AdminMemberList {
     }
 
     public function getList() {
-        $query = 'select memberid, username from member;';
+        $query = 'select memberid, username, admin, disabled from member order by memberid asc;';
         $params = array();
         $results = $this->database->query($query, $params);
 

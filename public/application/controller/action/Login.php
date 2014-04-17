@@ -31,14 +31,18 @@ class Login extends AbstractAction {
             return; // credentials were not sent, do nothing (just display the form)
         }
 
-        $baseURL = BASEURL;
-        if ($this->user->login($username, $password, $remember == 'true')) {
+        $loginStatus = $this->user->login($username, $password, $remember == 'true');
+        if ($loginStatus == 1) {
             // login succesful, redirect to home page
-            header("location:{$baseURL}");
+            header('location:' . BASEURL);
+            die;
+        } elseif ($loginStatus == -1) {
+            // user is banned, redirect to login form with an error
+            header('location:' . BASEURL . '?action=login&message=Tunnuksesi on suljettu');
             die;
         } else {
             // login failed, redirect to login form with an error
-            header("location:{$baseURL}?action=login&message=Väärä käyttäjänimi tai salasana");
+            header('location:' . BASEURL . '?action=login&message=Väärä käyttäjänimi tai salasana');
             die;
         }
     }

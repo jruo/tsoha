@@ -8,17 +8,23 @@ class AdminMemberListEntry extends DatabaseObject {
 
     private $userID;
     private $username;
+    private $admin;
+    private $disabled;
 
     public function asArray() {
         return array(
             'userID' => $this->userID,
-            'username' => $this->username
+            'username' => $this->username,
+            'admin' => $this->admin,
+            'disabled' => $this->disabled
         );
     }
 
     public function createFromDatabaseRow(array $array) {
         $this->userID = $array['memberid'];
         $this->username = $array['username'];
+        $this->admin = $array['admin'];
+        $this->disabled = $array['disabled'];
     }
 
 }

@@ -15,6 +15,12 @@ class User {
     function __construct(Database $database) {
         $this->database = $database;
         $this->loggedIn = $this->testLoginState();
+
+        if ($this->loggedIn && $this->isBanned()) {
+            $this->logout();
+            header('location:' . BASEURL . '?message=Tunnuksesi on suljettu');
+            die;
+        }
     }
 
     /**
@@ -79,11 +85,19 @@ class User {
             $this->setSessionValues($username, $userID, $admin, $remember);
             return true;
         }
+
         return false;
     }
 
     public function logout() {
         session_destroy();
+    }
+
+    public function isBanned() {
+        $query = 'select disabled from member where memberid=?;';
+        $params = array($this->getUserID());
+        $results = $this->database->query($query, $params);
+        return $results['0']['disabled'] == 1;
     }
 
     /**
@@ -171,8 +185,23 @@ class User {
      * @return boolean
      */
     public static function setBan(Database $database, $userID, $ban) {
-        $query = 'update member set deleted=? where memberid=?;';
+        $query = 'update member set disabled=? where memberid=?;';
         $params = array($ban ? 1 : 0, $userID);
+        $database->query($query, $params);
+
+        return $database->querySucceeded();
+    }
+
+    /**
+     * Updates the admin state for the given user
+     * @param Database $database
+     * @param int $userID
+     * @param boolean $admin
+     * @return true
+     */
+    public static function setAdmin(Database $database, $userID, $admin) {
+        $query = 'update member set admin=? where memberid=?;';
+        $params = array($admin ? 1 : 0, $userID);
         $database->query($query, $params);
 
         return $database->querySucceeded();
