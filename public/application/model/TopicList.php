@@ -4,7 +4,10 @@ namespace application\model;
 
 defined('INDEX') or die;
 
-class TopicListLoader {
+/**
+ * Front page topic listing
+ */
+class TopicList {
 
     private $database;
     private $user;
@@ -78,7 +81,7 @@ SQL;
 
         $results = $this->database->query($query, $params);
 
-        return $this->parseTopics($results);
+        return TopicListEntry::createArrayFromDatabase($results);
     }
 
     /**
@@ -142,20 +145,8 @@ SQL;
         $userID = $this->user->getUserID();
         $params = array($userID, $userID, $userID);
         $results = $this->database->query($query, $params);
-        return $this->parseTopics($results);
-    }
 
-    private function parseTopics($databaseRows) {
-        $topics = array();
-        foreach ($databaseRows as $row) {
-            if (isset($row['newcount'])) {
-                $newcount = $row['newcount'];
-            } else {
-                $newcount = null;
-            }
-            $topics[] = new TopicListRow($row['topicid'], $row['title'], $row['username'], $row['memberid'], $row['timesent'], $row['count'], $newcount);
-        }
-        return $topics;
+        return TopicListEntry::createArrayFromDatabase($results);
     }
 
 }

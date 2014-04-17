@@ -4,7 +4,7 @@ namespace application\controller\action;
 
 use application\controller\Formatter;
 use application\model\Database;
-use application\model\TopicListLoader;
+use application\model\TopicList as TopicListModel;
 use application\model\User;
 
 defined('INDEX') or die;
@@ -18,7 +18,7 @@ class TopicList extends AbstractAction {
 
     function __construct(Database $database, User $user) {
         $this->user = $user;
-        $this->topicLoader = new TopicListLoader($database, $user);
+        $this->topicLoader = new TopicListModel($database, $user);
     }
 
     public function excute() {
@@ -67,7 +67,7 @@ class TopicList extends AbstractAction {
             $newPosts = $topic->getNewPosts();
             $array[] = array('title' => $title, 'topicID' => $topicID,
                 'postCount' => $postCount, 'username' => $user,
-                'userID' => $userID, 'time' =>$time, 'newPosts' => $newPosts);
+                'userID' => $userID, 'time' => $time, 'newPosts' => $newPosts);
         }
         return $array;
     }

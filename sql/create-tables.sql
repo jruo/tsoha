@@ -15,7 +15,7 @@ create table Topic (
 
 create table Post (
     postID serial primary key,
-    memberID int references Member(memberID),
+    memberID int references Member(memberID) on delete cascade,
     topicID int references Topic(topicID) on delete cascade,
     postNumber int not null,
     replyToNumber int,
@@ -29,7 +29,7 @@ create table MemberGroup (
 );
 
 create table MemberInfo (
-    memberID int primary key references Member(memberID),
+    memberID int primary key references Member(memberID) on delete cascade,
     timeRegistered int not null,
     email varchar(500),
     realName varchar(500),
@@ -39,7 +39,7 @@ create table MemberInfo (
 
 create table PostRead (
     postID int references Post(postID) on delete cascade,
-    memberID int references Member(memberID),
+    memberID int references Member(memberID) on delete cascade,
     
     primary key (postID, memberID)
 );
@@ -52,7 +52,7 @@ create table TopicVisible (
 );
 
 create table MemberOfGroup (
-    memberID int references Member(memberID),
+    memberID int references Member(memberID) on delete cascade,
     memberGroupID int references MemberGroup(memberGroupID) on delete cascade,
     
     primary key(memberID, memberGroupID)

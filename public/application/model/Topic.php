@@ -103,7 +103,6 @@ SQL;
             $this->database->query($query, $params);
         }
 
-//        return $this->parsePosts($results);
         return Post::parsePostsFromDatabaseRows($this->database, $results);
     }
 

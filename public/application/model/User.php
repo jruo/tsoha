@@ -122,7 +122,7 @@ class User {
         // add the user to the default user group
         MemberGroup::addUserToGroup($database, 0, $userID);
 
-        return true;
+        return $database->querySucceeded();
     }
 
     /**
@@ -135,29 +135,63 @@ class User {
         $query = 'select password, salt from member where memberid=?;';
         $params = array($userID);
         $results = $database->query($query, $params);
-        
+
         $passwordFromDB = $results[0]['password'];
         $saltFromDB = $results[0]['salt'];
-        
+
         $password = new Password($passwordString);
         return $password->matches($passwordFromDB, $saltFromDB);
     }
-    
+
     /**
      * Sets a new password for the given user
      * @param Database $database
      * @param int $userID
      * @param string $passwordString
+     * @return boolean
      */
     public static function setPassword(Database $database, $userID, $passwordString) {
         $password = new Password($passwordString);
         $generated = $password->generateHashAndSalt();
         $hash = $generated[0];
         $salt = $generated[1];
-        
+
         $query = 'update member set password=?, salt=? where memberid=?;';
         $params = array($hash, $salt, $userID);
         $database->query($query, $params);
+
+        return $database->querySucceeded();
+    }
+
+    /**
+     * Bans or unbans the given user
+     * @param Database $database
+     * @param int $userID
+     * @param boolean $ban true=ban, false=unban
+     * @return boolean
+     */
+    public static function setBan(Database $database, $userID, $ban) {
+        $query = 'update member set deleted=? where memberid=?;';
+        $params = array($ban ? 1 : 0, $userID);
+        $database->query($query, $params);
+
+        return $database->querySucceeded();
+    }
+
+    /**
+     * Permanently deletes the given user and everything referring to them
+     * @param Database $database
+     * @param int $userID
+     */
+    public static function delete(Database $database, $userID) {
+        $query = 'delete from member where memberid=?;';
+        $params = array($userID);
+        $database->query($query, $params);
+        $success = $database->querySucceeded();
+
+        Topic::deleteEmptyTopics($database);
+
+        return $success;
     }
 
     /**

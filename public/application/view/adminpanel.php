@@ -1,6 +1,5 @@
 <?php defined('INDEX') or die; ?>
 <div class="list-group">
-    <a href="#" class="list-group-item">Hallitse porttikieltoja</a>
-    <a href="#" class="list-group-item">Lisää ja poista jäsenryhmiä</a>
-    <a href="#" class="list-group-item">Muokkaa jäsenryhmien jäsenyyksiä</a>
+    <a href="<?php echo BASEURL; ?>?action=admineditmembers" class="list-group-item">Hallitse jäsenluetteloa</a>
+    <a href="<?php echo BASEURL; ?>?action=admineditmembergroups" class="list-group-item">Hallitse jäsenryhmiä ja jäsenyyksiä</a>
 </div>
