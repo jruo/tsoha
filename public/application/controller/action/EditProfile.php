@@ -2,10 +2,11 @@
 
 namespace application\controller\action;
 
+use application\controller\Formatter;
 use application\controller\Request;
 use application\controller\Validator;
 use application\model\Database;
-use application\model\ProfileInfo;
+use application\model\Profile as ProfileModel;
 use application\model\User;
 
 defined('INDEX') or die;
@@ -16,6 +17,7 @@ class EditProfile extends AbstractAction {
     private $request;
     private $user;
     private $userID;
+    private $profile;
     private $profileInfo;
 
     function __construct(Database $database, Request $request, User $user) {
@@ -33,9 +35,10 @@ class EditProfile extends AbstractAction {
             die;
         }
 
-        $this->profileInfo = new ProfileInfo($this->database, $this->userID);
+        $this->profile = new ProfileModel($this->database, $this->userID);
+        $this->profileInfo = $this->profile->getProfileInfo();
 
-        if (!$this->profileInfo->isValidUser()) {
+        if (!$this->profile->isValid()) {
             header('location:' . BASEURL . '?message=Virheellinen käyttäjä');
             die;
         }
@@ -58,11 +61,11 @@ class EditProfile extends AbstractAction {
         if ($gender == 'null') {
             $gender = null;
         }
-        $this->profileInfo->setEmail($email);
-        $this->profileInfo->setRealName($realName);
-        $this->profileInfo->setGender($gender);
+        $this->profile->setEmail($email);
+        $this->profile->setRealName($realName);
+        $this->profile->setGender($gender);
         if (is_numeric($age) && $age > 1 && $age <= 2147483647) {
-            $this->profileInfo->setAge($age);
+            $this->profile->setAge($age);
         } else {
             header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&message=Iän täytyy olla positiivinen kokonaisluku");
             die;
@@ -99,11 +102,12 @@ class EditProfile extends AbstractAction {
     }
 
     public function setVars() {
+        $profileInfo = $this->profileInfo->asArray();
         $this->renderer->addVar('userID', $this->userID);
-        $this->renderer->addVar('email', $this->profileInfo->getEmail());
-        $this->renderer->addVar('realName', $this->profileInfo->getRealName());
-        $this->renderer->addVar('gender', $this->profileInfo->getGender());
-        $this->renderer->addVar('age', $this->profileInfo->getAge());
+        $this->renderer->addVar('email', Formatter::escapeText($profileInfo['email']));
+        $this->renderer->addVar('realName', Formatter::escapeText($profileInfo['realName']));
+        $this->renderer->addVar('gender', $profileInfo['gender']);
+        $this->renderer->addVar('age', $profileInfo['age']);
     }
 
     public function getTitle() {
