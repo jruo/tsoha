@@ -24,17 +24,17 @@ class DeletePost extends AbstractAction {
     public function excute() {
         $postID = $this->request->getGetData('id');
         $post = new Post($this->database, $postID);
-        if ($post->canDelete($this->user)) {
+        if ($this->user->isAdmin()) {
             $post->delete();
         }
-        
+
         // redirect back
         header('location:' . $_SERVER['HTTP_REFERER']);
         die;
     }
 
     public function setVars() {
-        
+
     }
 
     public function getTitle() {

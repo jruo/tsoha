@@ -17,7 +17,7 @@
         <div class="panel-body">
             <div class="col-sm-2">
                 <small><?php echo $post['timeSent']; ?></small><br/>
-                <a href="<?php echo BASEURL . "?action=profile&id={$post['memberID']}"; ?>"><?php echo $post['username']; ?></a>
+                <a href="<?php echo BASEURL . "?action=profile&id={$post['userID']}"; ?>"><?php echo $post['username']; ?></a>
             </div>
             <div class="col-sm-10">
                 <?php if (isset($post['replyToNumber'])) : ?>

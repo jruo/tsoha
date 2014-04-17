@@ -103,7 +103,8 @@ SQL;
             $this->database->query($query, $params);
         }
 
-        return Post::parsePostsFromDatabaseRows($this->database, $results);
+        return TopicPost::createArrayFromDatabase($results);
+//        return Post::parsePostsFromDatabaseRows($this->database, $results);
     }
 
     /**

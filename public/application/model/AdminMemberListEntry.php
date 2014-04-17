@@ -9,14 +9,6 @@ class AdminMemberListEntry extends DatabaseObject {
     private $userID;
     private $username;
 
-    public function getUserID() {
-        return $this->userID;
-    }
-
-    public function getUsername() {
-        return $this->username;
-    }
-
     public function asArray() {
         return array(
             'userID' => $this->userID,

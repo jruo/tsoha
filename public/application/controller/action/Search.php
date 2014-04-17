@@ -54,7 +54,7 @@ class Search extends AbstractAction {
         if (!empty($username)) {
             $search->addUserFilter($username);
         }
-        $this->posts = $this->parsePosts($search->search());
+        $this->posts = $this->formatPosts($search->search());
         $this->hasResults = true;
     }
 
@@ -75,17 +75,13 @@ class Search extends AbstractAction {
         return true;
     }
 
-    private function parsePosts($posts) {
+    private function formatPosts($posts) {
         $array = array();
         foreach ($posts as $post) {
-            $memberID = $post->getMemberID();
-            $username = $post->getUsername();
-            $content = Formatter::formatPostContent($post->getContent());
-            $timeSent = date('j.n.Y k\l\o H:i', $post->getTimeSent());
-            $postNumber = $post->getPostNumber();
-            $topicID = $post->getTopicID();
-            $array[] = array('memberID' => $memberID, 'username' => $username, 'postNumber' => $postNumber,
-                'content' => $content, 'timeSent' => $timeSent, 'topicID' => $topicID);
+            $postArray = $post->asArray();
+            $postArray['content'] = Formatter::formatPostContent($postArray['content']);
+            $postArray['timeSent'] = Formatter::formatTime($postArray['timeSent']);
+            $array[] = $postArray;
         }
         return $array;
     }

@@ -28,7 +28,7 @@ class EditPost extends AbstractAction {
     public function excute() {
         $this->postID = $this->request->getGetData('id');
         $post = new Post($this->database, $this->postID);
-        if (!$post->canEdit($this->user)) {
+        if (!$this->user->isAdmin() && $this->user->getUserID() != $post->getUserID()) {
             header('location:' . BASEURL);
             die;
         }

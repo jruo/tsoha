@@ -44,7 +44,16 @@ class Formatter {
         $text = preg_replace(self::$BBCodeTags, self::$HTMLTags, $text);
         return $text;
     }
-    
+
+    /**
+     * Formats the given timestamp into readable date
+     * @param int $timestamp
+     * @return string
+     */
+    public static function formatTime($timestamp) {
+        return date('j.n.Y k\l\o H:i', $timestamp);
+    }
+
     /**
      * Escapes the given html string
      * @param string $text

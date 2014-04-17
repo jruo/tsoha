@@ -47,27 +47,21 @@ class TopicList extends AbstractAction {
 
     private function addPublicTopics() {
         $topics = $this->topicLoader->getPublicTopics();
-        $this->publicTopics = $this->parseTopics($topics);
+        $this->publicTopics = $this->formatTopics($topics);
     }
 
     private function addPrivateTopics() {
         $topics = $this->topicLoader->getPrivateTopics();
-        $this->privateTopics = $this->parseTopics($topics);
+        $this->privateTopics = $this->formatTopics($topics);
     }
 
-    private function parseTopics($topics) {
+    private function formatTopics($topics) {
         $array = array();
         foreach ($topics as $topic) {
-            $title = Formatter::escapeText($topic->getTitle());
-            $topicID = $topic->getTopicID();
-            $postCount = $topic->getPostCount();
-            $user = $topic->getLastPostUsername();
-            $userID = $topic->getLastPostUserID();
-            $time = date('j.n.Y k\l\o H:i', $topic->getLastPostTime());
-            $newPosts = $topic->getNewPosts();
-            $array[] = array('title' => $title, 'topicID' => $topicID,
-                'postCount' => $postCount, 'username' => $user,
-                'userID' => $userID, 'time' => $time, 'newPosts' => $newPosts);
+            $topicArray = $topic->asArray();
+            $topicArray['title'] = Formatter::escapeText($topicArray['title']);
+            $topicArray['time'] = Formatter::formatTime($topicArray['time']);
+            $array[] = $topicArray;
         }
         return $array;
     }

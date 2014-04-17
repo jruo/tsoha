@@ -46,7 +46,8 @@ class SearchResultLoader {
             $params[] = $this->timeFilter[1];
         }
         $results = $this->database->query($query, $params);
-        return Post::parsePostsFromDatabaseRows($this->database, $results);
+
+        return TopicPost::createArrayFromDatabase($results);
     }
 
 }

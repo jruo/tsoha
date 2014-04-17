@@ -8,88 +8,32 @@ class Post {
 
     private $database;
     private $postID;
-    private $postNumber;
-    private $replyToNumber;
-    private $memberID;
-    private $username;
-    private $content;
-    private $timeSent;
-    private $read;
-    private $topicID;
 
-    function __construct(Database $database, $postID, $postNumber = null, $replyToNumber = null, $memberID = null, $username = null, $content = null, $timeSent = null, $read = null, $topicID = null) {
+    function __construct(Database $database, $postID) {
         $this->database = $database;
         $this->postID = $postID;
-        $this->postNumber = $postNumber;
-        $this->replyToNumber = $replyToNumber;
-        $this->memberID = $memberID;
-        $this->username = $username;
-        $this->content = $content;
-        $this->timeSent = $timeSent;
-        $this->read = $read;
-        $this->topicID = $topicID;
-
-        if ($this->memberID == null) {
-            $this->memberID = $this->loadMemberID();
-        }
-        if ($this->content == null) {
-            $this->content = $this->loadContent();
-        }
     }
 
-    public function getPostID() {
-        return $this->postID;
+    /**
+     * Returns the userID of this post's writer
+     * @return int
+     */
+    public function getUserID() {
+        $query = 'select memberid from post where postid=?;';
+        $params = array($this->postID);
+        $results = $this->database->query($query, $params);
+        return $results[0]['memberid'];
     }
 
-    public function getPostNumber() {
-        return $this->postNumber;
-    }
-
-    public function getReplyToNumber() {
-        return $this->replyToNumber;
-    }
-
-    public function getMemberID() {
-        return $this->memberID;
-    }
-
-    public function getUsername() {
-        return $this->username;
-    }
-
+    /**
+     * Returns the content of this post
+     * @return string
+     */
     public function getContent() {
-        return $this->content;
-    }
-
-    public function getTimeSent() {
-        return $this->timeSent;
-    }
-
-    public function getRead() {
-        return $this->read;
-    }
-
-    public function getTopicID() {
-        return $this->topicID;
-    }
-
-    /**
-     * Checks if the given user can delete this post
-     * @param User $user
-     * @return boolean
-     */
-    public function canDelete(User $user) {
-        return $user->isAdmin(); // only admin can delete
-    }
-
-    /**
-     * Checks if the given user can edit this post
-     * @param User $user
-     * @return type
-     */
-    public function canEdit(User $user) {
-        // only admin or the owner of this post can edit
-        return $user->isAdmin() || $user->getUserID() == $this->memberID;
+        $query = 'select content from post where postid=?;';
+        $params = array($this->postID);
+        $results = $this->database->query($query, $params);
+        return $results[0]['content'];
     }
 
     /**
@@ -132,47 +76,6 @@ class Post {
 SQL;
         $params = array($memberID, $topicID, $replyToNumber, $content, $timeSent, $topicID);
         $database->query($query, $params);
-    }
-
-    public static function parsePostsFromDatabaseRows(Database $database, array $databaseRows) {
-        $posts = array();
-
-        foreach ($databaseRows as $row) {
-            $postID = $row['postid'];
-            $memberID = $row['memberid'];
-            $content = $row['content'];
-            $timesent = $row['timesent'];
-            $postNumber = $row['postnumber'];
-            $replyToNumber = $row['replytonumber'];
-            $read = isset($row['read']) ? $row['read'] : null;
-            $username = isset($row['username']) ? $row['username'] : null;
-            $topicID = isset($row['topicid']) ? $row['topicid'] : null;
-            $posts[] = new self($database, $postID, $postNumber, $replyToNumber, $memberID, $username, $content, $timesent, $read, $topicID);
-        }
-
-        return $posts;
-    }
-
-    /**
-     * Loads the memberID of this post in case it wasn't provided in the constructor
-     * @return int
-     */
-    private function loadMemberID() {
-        $query = 'select memberid from post where postid=?;';
-        $params = array($this->postID);
-        $results = $this->database->query($query, $params);
-        return $results[0]['memberid'];
-    }
-
-    /**
-     * Loads the content of this post in case it wasn't provided in the constructor
-     * @return string
-     */
-    private function loadContent() {
-        $query = 'select content from post where postid=?;';
-        $params = array($this->postID);
-        $results = $this->database->query($query, $params);
-        return $results[0]['content'];
     }
 
 }

@@ -31,16 +31,17 @@ class Topic extends AbstractAction {
             die;
         }
 
-        $loader = new TopicModel($this->database, $this->user, $this->topicID);
+        $topic = new TopicModel($this->database, $this->user, $this->topicID);
 
-        if (!$loader->canAccess($this->topicID)) {
+        if (!$topic->canAccess()) {
             // the user cannot access this topic or topic does not exist
             header('location:' . BASEURL . '?message=Virheellinen viestiketju');
             die;
         }
 
-        $this->title = Formatter::escapeText($loader->getTitle());
-        $this->posts = $this->parsePosts($loader->loadPosts($this->topicID));
+        $this->title = Formatter::escapeText($topic->getTitle());
+        $posts = $topic->loadPosts();
+        $this->posts = $this->formatPosts($posts);
     }
 
     public function setVars() {
@@ -68,23 +69,15 @@ class Topic extends AbstractAction {
         return false;
     }
 
-    private function parsePosts($posts) {
+    private function formatPosts($posts) {
         $array = array();
         foreach ($posts as $post) {
-            $postID = $post->getPostID();
-            $postNumber = $post->getPostNumber();
-            $replyToNumber = $post->getReplyToNumber();
-            $memberID = $post->getMemberID();
-            $username = $post->getUsername();
-            $content = Formatter::formatPostContent($post->getContent());
-            $timeSent = date('j.n.Y k\l\o H:i', $post->getTimeSent());
-            $read = $post->getRead() == 1;
-            $canEdit = $post->canEdit($this->user);
-            $canDelete = $post->canDelete($this->user);
-            $array[] = array('postID' => $postID, 'postNumber' => $postNumber,
-                'replyToNumber' => $replyToNumber, 'memberID' => $memberID,
-                'username' => $username, 'content' => $content, 'read' => $read,
-                'timeSent' => $timeSent, 'canEdit' => $canEdit, 'canDelete' => $canDelete);
+            $postArray = $post->asArray();
+            $postArray['content'] = Formatter::formatPostContent($postArray['content']);
+            $postArray['timeSent'] = Formatter::formatTime($postArray['timeSent']);
+            $postArray['canEdit'] = $this->user->isAdmin() || $this->user->getUserID() == $postArray['userID'];
+            $postArray['canDelete'] = $this->user->isAdmin();
+            $array[] = $postArray;
         }
         return $array;
     }
