@@ -1,4 +1,3 @@
-insert into Member (username, password, salt, admin) values ('admin', '9c6f98e2346f1b937ae1fab637dac7316ef87b4b8e718896ed6bb84576eb9f2d', '36d5d17640fc0336e0af2014afb23a91e4bc5032937ae1c3e8a6956aa04ec0eb', 1);
 insert into Member (username, password, salt) values ('Matti Meikäläinen', '7f4f43dd926273c755ddda392176351dac037fbc412dcabb6e1c484d751e97f4', '3114992e30462844cedfe79fef3042499597b9212a79b47176d7dabe09a1abec');
 insert into Member (username, password, salt) values ('Maija Meikäläinen', 'ea8f711a400710d537082d6b374b8207f0fa748884d993eb5e5d67c70740b2d2', 'ecce9117785a281368f4ac162f3b8a20df20e0fb3284ea6834b44145d039e624');
 
