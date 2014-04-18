@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\controller\Request;
 use application\model\AdminMemberList;
 use application\model\Database;
@@ -24,8 +25,7 @@ class AdminEditMembers extends AbstractAction {
 
     public function excute() {
         if (!$this->user->isAdmin()) {
-            header('location:' . BASEURL);
-            die;
+            new Redirect();
         }
 
         $option = $this->request->getGetData('option');
@@ -43,24 +43,22 @@ class AdminEditMembers extends AbstractAction {
             switch ($option) {
                 case 'setadmin':
                     User::setAdmin($this->database, $userID, $mode);
-                    header('location:' . BASEURL . '?action=admineditmembers&info=Ylläpitäjyys muutettu');
+                    new Redirect(array('action' => 'admineditmembers', 'info' => 'Ylläpitäjyys muutettu'));
                     break;
                 case 'setban':
                     User::setBan($this->database, $userID, $mode);
-                    header('location:' . BASEURL . '?action=admineditmembers&info=Porttikielto muutettu');
+                    new Redirect(array('action' => 'admineditmembers', 'info' => 'Porttikielto muutettu'));
                     break;
                 case 'delete':
                     User::delete($this->database, $userID);
-                    header('location:' . BASEURL . '?action=admineditmembers&info=Jäsen poistettu');
+                    new Redirect(array('action' => 'admineditmembers', 'info' => 'Jäsen poistettu'));
                     break;
                 default:
-                    header('location:' . BASEURL . '?action=admineditmembers&message=Virheellinen toiminto');
+                    new Redirect(array('action' => 'admineditmembers', 'message' => 'Virheellinen toiminto'));
             }
         } else {
-            header('location:' . BASEURL . '?action=admineditmembers&message=Et voi suorittaa tätä toimintoa itsellesi');
+            new Redirect(array('action' => 'admineditmembers', 'message' => 'Et voi suorittaa tätä toimintoa itsellesi'));
         }
-
-        die;
     }
 
     private function loadMemberList() {

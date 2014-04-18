@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\controller\Request;
 use application\controller\Validator;
 use application\model\Database;
@@ -29,14 +30,12 @@ class EditPost extends AbstractAction {
         $this->postID = $this->request->getGetData('id');
         $post = new Post($this->database, $this->postID);
         if (!$this->user->isAdmin() && $this->user->getUserID() != $post->getUserID()) {
-            header('location:' . BASEURL);
-            die;
+            new Redirect();
         }
 
         $this->topicID = $this->request->getGetData('topicid');
         if (!isset($this->topicID)) {
-            header('location:' . BASEURL);
-            die;
+            new Redirect();
         }
 
         $newContent = $this->request->getPostData('content');
@@ -44,13 +43,18 @@ class EditPost extends AbstractAction {
         if (isset($newContent)) {
             // the post was edited and the user saved changes
             if (!Validator::isValidPost($newContent)) {
-                $_SESSION['newContent'] = $newContent;
-                header('location:' . BASEURL . "?action=editpost&id={$this->postID}&topicid={$this->topicID}&message=Viestissä tulee olla vähintään 6 ja enintään 10,000 merkkiä");
-                die;
+                new Redirect(array(
+                    'action' => 'editpost',
+                    'id' => $this->postID,
+                    'topicid' => $this->topicID,
+                    'message' => 'Viestissä tulee olla vähintään 6 ja enintään 10,000 merkkiä'
+                        ), array(
+                    'newContent' => $newContent
+                ));
             }
+
             $post->edit($newContent);
-            header('location:' . BASEURL . '?action=topic&id=' . $this->topicID);
-            die;
+            new Redirect(array('action' => 'topic', 'id' => $this->topicID));
         }
 
         // the post wasn't edited yet

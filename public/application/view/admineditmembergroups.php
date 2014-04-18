@@ -3,20 +3,37 @@
     <thead>
         <tr>
             <th>Jäsenryhmä</th>
-            <th class="col-sm-2">Jäseniä</th>
+            <th class="col-sm-1">Jäseniä</th>
+            <th class="col-sm-2">Muuta nimeä</th>
             <th class="col-sm-1">Poista</th>
         </tr>
     </thead>
     <tbody>
-        <?php foreach ($this->vars['memberGroups'] as $membergroup) : ?>
+        <?php foreach ($this->vars['memberGroups'] as $memberGroup) : ?>
             <tr>
                 <td>
-                    <a href="<?php echo BASEURL; ?>?action=admineditmembergroupmembers&id=<?php echo $membergroup['id']; ?>"><?php echo $membergroup['name']; ?></a>
+                    <form role="form" action="<?php echo BASEURL; ?>" method="GET" class="form-inline">
+                        <input type="hidden" name="action" value="admineditmembergroups" />
+                        <input type="hidden" name="option" value="rename" />
+                        <input type="hidden" name="groupid" value="<?php echo $memberGroup['id']; ?>" />
+                        <div class="memberGroupRealName" id="memberGroupRealName-<?php echo $memberGroup['id']; ?>">
+                            <a href="<?php echo BASEURL; ?>?action=admineditmembergroupmembers&id=<?php echo $memberGroup['id']; ?>"><?php echo $memberGroup['name']; ?></a>
+                        </div>
+                        <div class="memberGroupEditName" id="memberGroupEditName-<?php echo $memberGroup['id']; ?>" style="display:none">
+                            <input class="form-control input-sm" style="width:50%" type="text" name="value" placeholder="<?php echo $memberGroup['name']; ?>" />
+                            <button type="submit" class="btn-xs btn-default">Tallenna</button>
+                            <button type="button" onclick="showRenameGroup(-1)" class="btn-xs btn-default">Peruuta</button>
+                        </div>
+                    </form>
                 </td>
                 <td>
                     ?
                 </td>
-                <td><a onclick="return confirm('Haluatko varmasti poistaa tämän jäsenryhmän? Tämä poistaa myös kaikki viestiketjut, jotka olivat näkyvissä vain tälle jäsenryhmälle!')" href="<?php echo BASEURL; ?>?action=admineditmembergroups&option=delete&groupid=<?php echo $membergroup['id']; ?>"<span style="color:black" class="glyphicon glyphicon-trash"></span></a></td>
+                <td>
+                    <a href="javascript:showRenameGroup(<?php echo $memberGroup['id']; ?>)" style="color:black"><span class="glyphicon glyphicon-edit"></span></a>
+                </td>
+                <td><a onclick="return confirm('Haluatko varmasti poistaa tämän jäsenryhmän?')" href="<?php echo BASEURL; ?>?action=admineditmembergroups&option=delete&groupid=<?php echo $memberGroup['id']; ?>"<span style="color:black" class="glyphicon glyphicon-trash"></span></a></td>
+
             </tr>
         <?php endforeach; ?>
     </tbody>

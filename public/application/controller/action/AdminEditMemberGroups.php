@@ -2,7 +2,9 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\controller\Request;
+use application\controller\Validator;
 use application\model\Database;
 use application\model\MemberGroup;
 use application\model\User;
@@ -24,8 +26,7 @@ class AdminEditMemberGroups extends AbstractAction {
 
     public function excute() {
         if (!$this->user->isAdmin()) {
-            header('location:' . BASEURL);
-            die;
+            new Redirect();
         }
 
         $option = $this->request->getGetData('option');
@@ -40,23 +41,36 @@ class AdminEditMemberGroups extends AbstractAction {
             case 'delete':
                 if ($groupID != 0) {
                     MemberGroup::removeGroup($this->database, $groupID);
-                    header('location:' . BASEURL . '?action=admineditmembergroups&info=Ryhmä poistettu');
+                    new Redirect(array('action' => 'admineditmembergroups', 'info' => 'Ryhmä poistettu'));
                 } else {
-                    header('location:' . BASEURL . '?action=admineditmembergroups&message=Oletusryhmää ei voi poistaa.');
+                    new Redirect(array('action' => 'admineditmembergroups', 'message' => 'Oletusryhmää ei voi poistaa'));
                 }
                 break;
             case 'create':
                 if (MemberGroup::addGroup($this->database, $value)) {
-                    header('location:' . BASEURL . '?action=admineditmembergroups&info=Ryhmä luotu');
+                    new Redirect(array('action' => 'admineditmembergroups', 'info' => 'Ryhmä luotu'));
                 } else {
-                    header('location:' . BASEURL . '?action=admineditmembergroups&message=Ryhmän luonti epäonnistui');
+                    new Redirect(array('action' => 'admineditmembergroups', 'message' => 'Ryhmän luonti epäonnistui'));
+                }
+                break;
+            case 'rename':
+                if ($groupID != 0) {
+                    if (Validator::isValidMemberGroupName($value)) {
+                        if (MemberGroup::renameGroup($this->database, $groupID, $value)) {
+                            new Redirect(array('action' => 'admineditmembergroups', 'info' => 'Ryhmä uudelleennimetty'));
+                        } else {
+                            new Redirect(array('action' => 'admineditmembergroups', 'message' => 'Uudelleennimeäminen ei onnistunut'));
+                        }
+                    } else {
+                        new Redirect(array('action' => 'admineditmembergroups', 'message' => 'Nimen on oltava vähintäään 5 ja enintään 100 merkkiä pitkä ja saa sisältää merkkejä . - _ sekä välilyöntejä.'));
+                    }
+                } else {
+                    new Redirect(array('action' => 'admineditmembergroups', 'message' => 'Oletusryhmää ei voi muokata'));
                 }
                 break;
             default:
-                header('location:' . BASEURL . '?action=admineditmembergroups&message=Virheellinen toiminto');
+                new Redirect(array('action' => 'admineditmembergroups', 'message' => 'Virheellinen toiminto'));
         }
-
-        die;
     }
 
     public function setVars() {

@@ -3,6 +3,7 @@
 namespace application\controller\action;
 
 use application\controller\Formatter;
+use application\controller\Redirect;
 use application\controller\Request;
 use application\model\Database;
 use application\model\Topic as TopicModel;
@@ -27,16 +28,14 @@ class Topic extends AbstractAction {
         $this->topicID = $this->request->getGetData('id');
 
         if (!isset($this->topicID)) {
-            header('location:' . BASEURL);
-            die;
+            new Redirect();
         }
 
         $topic = new TopicModel($this->database, $this->user, $this->topicID);
 
         if (!$topic->canAccess()) {
             // the user cannot access this topic or topic does not exist
-            header('location:' . BASEURL . '?message=Virheellinen viestiketju');
-            die;
+            new Redirect(array('message' => 'Virheellinen viestiketju'));
         }
 
         $this->title = Formatter::escapeText($topic->getTitle());

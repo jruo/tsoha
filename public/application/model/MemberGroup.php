@@ -17,7 +17,8 @@ class MemberGroup {
         select      membergroup.membergroupid, membergroup.groupname
         from        membergroup, memberofgroup
         where       membergroup.membergroupid=memberofgroup.membergroupid
-            and     memberid=?;
+            and     memberid=?
+        order by    membergroupid asc;
 SQL;
         $params = array($userID);
         $results = $database->query($query, $params);
@@ -30,7 +31,7 @@ SQL;
      * @return array
      */
     public static function getGroups(Database $database) {
-        $query = 'select * from membergroup;';
+        $query = 'select * from membergroup order by membergroupid asc;';
         $params = array();
         $results = $database->query($query, $params);
         return self::parseGroups($results);
@@ -45,6 +46,20 @@ SQL;
     public static function addGroup(Database $database, $groupName) {
         $query = 'insert into membergroup (groupname) values (?);';
         $params = array($groupName);
+        $database->query($query, $params);
+        return $database->querySucceeded();
+    }
+
+    /**
+     *
+     * @param Database $database
+     * @param int $groupID
+     * @param string $name
+     * @return boolean
+     */
+    public static function renameGroup(Database $database, $groupID, $name) {
+        $query = 'update membergroup set groupname=? where membergroupid=?;';
+        $params = array($name, $groupID);
         $database->query($query, $params);
         return $database->querySucceeded();
     }

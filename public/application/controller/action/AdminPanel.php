@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\model\User;
 
 defined('INDEX') or die;
@@ -16,13 +17,12 @@ class AdminPanel extends AbstractAction {
 
     public function excute() {
         if (!$this->user->isAdmin()) {
-            header('location:' . BASEURL);
-            die;
+            new Redirect();
         }
     }
 
     public function setVars() {
-        
+
     }
 
     public function getTitle() {

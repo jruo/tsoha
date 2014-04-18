@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\controller\Request;
 use application\controller\Validator;
 use application\model\Database;
@@ -71,8 +72,7 @@ class NewTopic extends AbstractAction {
             $topic = Topic::create($this->database, $this->user, $topicTitle, $topicContent, 1);
         }
 
-        header('location:' . BASEURL . "?action=topic&id={$topic->getID()}");
-        die;
+        new Redirect(array('action' => 'topic', 'id' => $topic->getID()));
     }
 
     private function testPostValidity($title, $content) {
@@ -85,10 +85,13 @@ class NewTopic extends AbstractAction {
     }
 
     private function showError($title, $content, $error) {
-        $_SESSION['topicTitle'] = $title;
-        $_SESSION['topicContent'] = $content;
-        header('location:' . BASEURL . "?action=newtopic&message={$error}");
-        die;
+        new Redirect(array(
+            'action' => 'newtopic',
+            'message' => $error
+                ), array(
+            'topicTitle' => $title,
+            'topicContent' => $content
+        ));
     }
 
     public function setVars() {

@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\model\User;
 
 defined('INDEX') or die;
@@ -16,12 +17,11 @@ class Logout extends AbstractAction {
 
     public function excute() {
         $this->user->logout();
-        header('location:' . BASEURL);
-        die;
+        new Redirect();
     }
 
     public function setVars() {
-        
+
     }
 
     public function getView() {

@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\controller\Request;
 use application\model\Database;
 use application\model\Post;
@@ -29,8 +30,7 @@ class DeletePost extends AbstractAction {
         }
 
         // redirect back
-        header('location:' . $_SERVER['HTTP_REFERER']);
-        die;
+        new Redirect($_SERVER['HTTP_REFERER']);
     }
 
     public function setVars() {

@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\controller\Request;
 use application\controller\Validator;
 use application\model\Database;
@@ -29,30 +30,31 @@ class NewPost extends AbstractAction {
         $content = $this->request->getPostData('content');
 
         if (!isset($topicID, $replyToNumber, $content)) {
-            header('location:' . BASEURL);
-            die;
+            new Redirect();
         }
 
         $topic = new Topic($this->database, $this->user, $topicID);
 
         if (!$topic->canAccess()) {
             // the user can't access this topic or it does not exist
-            header('location:' . BASEURL . '?message=Virheellinen viestiketju');
-            die;
+            new Redirect(array('message' => 'Virheellinen viestiketju'));
         }
 
         if (!Validator::isValidPost($content)) {
-            $_SESSION['editPost'] = $content;
-            $_SESSION['replyToNumber'] = $replyToNumber;
-            header('location:' . BASEURL . "?action=topic&id={$topicID}&message=Viestissä tulee olla vähintään 6 ja enintään 10,000 merkkiä.");
-            die;
+            new Redirect(array(
+                'action' => 'topic',
+                'id' => $topicID,
+                'message' => 'Viestissä tulee olla vähintään 6 ja enintään 10,000 merkkiä'
+                    ), array(
+                'editPost' => $content,
+                'replyToNumber' => $replyToNumber
+            ));
         }
 
         // ok
         Post::create($this->database, $this->user, $topicID, $replyToNumber == -1 ? null : $replyToNumber, $content);
 
-        header('location:' . BASEURL . "?action=topic&id={$topicID}");
-        die;
+        new Redirect(array('action' => 'topic', 'id' => $topicID));
     }
 
     public function setVars() {

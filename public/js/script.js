@@ -11,5 +11,16 @@ function reply(id) {
 }
 
 function scrollToBottom() {
-    $("html, body").animate({ scrollTop: $(document).height() });
+    $("html, body").animate({scrollTop: $(document).height()});
+}
+
+function showRenameGroup(id) {
+    $(".memberGroupEditName").hide();
+    $(".memberGroupRealName").show();
+    if (id < 0) {
+        return;
+    }
+    $("#memberGroupRealName-" + id).hide();
+    $("#memberGroupEditName-" + id).show();
+    $("#memberGroupEditName-" + id).children(".form-control").focus();
 }

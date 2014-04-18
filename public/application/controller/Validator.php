@@ -46,4 +46,13 @@ class Validator {
         return strlen($password) > 5 && strlen($password) < 500;
     }
 
+    /**
+     * Checks if the given membergroup name is valid
+     * @param string $name
+     * @return boolean
+     */
+    public static function isValidMemberGroupName($name) {
+        return preg_match('/^[a-öA-Ö0-9 \-_\.]{5,100}$/', $name);
+    }
+
 }

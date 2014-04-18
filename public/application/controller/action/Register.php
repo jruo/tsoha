@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\controller\Request;
 use application\controller\Validator;
 use application\model\Database;
@@ -37,33 +38,44 @@ class Register extends AbstractAction {
         }
 
         if ($password1 !== $password2) {
-            $_SESSION['returnUsername'] = $username;
-            header('location:' . BASEURL . '?action=register&message=Salasanat eivät täsmää');
-            die;
+            new Redirect(array(
+                'action' => 'register',
+                'message' => 'Salasanat eivät täsmää'
+                    ), array(
+                'returnUsername' => $username)
+            );
         }
-        
+
         if (!Validator::isValidUsername($username)) {
-            $_SESSION['returnUsername'] = $username;
-            header('location:' . BASEURL . '?action=register&message=Käyttäjänimen tulee olla 4-20 merkkiä pitkä ja se saa sisältää kirjaimia, numeroita sekä merkkejä - _ . ja välilyöntejä');
-            die;
+            new Redirect(array(
+                'action' => 'register',
+                'message' => 'Käyttäjänimen tulee olla 4-20 merkkiä pitkä ja se saa sisältää kirjaimia, numeroita sekä merkkejä - _ . ja välilyöntejä'
+                    ), array(
+                'returnUsername' => $username)
+            );
         }
-        
+
         if (!Validator::isValidPassword($password1)) {
-            $_SESSION['returnUsername'] = $username;
-            header('location:' . BASEURL . '?action=register&message=Salasanan tulee olla yli 5 ja alle 500 merkkiä pitkä');
-            die;
+            new Redirect(array(
+                'action' => 'register',
+                'message' => 'Salasanan tulee olla yli 5 ja alle 500 merkkiä pitkä'
+                    ), array(
+                'returnUsername' => $username)
+            );
         }
-        
+
         if (User::create($this->database, $username, $password1)) {
             // success, also log the user in
             $this->user->login($username, $password1);
-            header('location:' . BASEURL . '?info=Rekisteröinti onnistui');
-            die;
+            new Redirect(array('info' => 'Rekisteröinti onnistui'));
         } else {
             // fail, the username is most likely already in use
-            $_SESSION['returnUsername'] = $username;
-            header('location:' . BASEURL . '?action=register&message=Käyttäjänimi on jo käytössä');
-            die;
+            new Redirect(array(
+                'action' => 'register',
+                'message' => 'Käyttäjänimi on jo käytössä'
+                    ), array(
+                'returnUsername' => $username)
+            );
         }
     }
 

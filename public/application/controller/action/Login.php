@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\controller\Request;
 use application\model\User;
 
@@ -19,8 +20,7 @@ class Login extends AbstractAction {
 
     public function excute() {
         if ($this->user->isLoggedIn()) {
-            header('location:' . BASEURL); // already logged in, return to home page
-            die;
+            new Redirect(); // already logged in, return to home page
         }
 
         $username = $this->request->getPostData('username');
@@ -34,16 +34,13 @@ class Login extends AbstractAction {
         $loginStatus = $this->user->login($username, $password, $remember == 'true');
         if ($loginStatus == 1) {
             // login succesful, redirect to home page
-            header('location:' . BASEURL);
-            die;
+            new Redirect(null);
         } elseif ($loginStatus == -1) {
-            // user is banned, redirect to login form with an error
-            header('location:' . BASEURL . '?action=login&message=Tunnuksesi on suljettu');
-            die;
+            // user is banned, display error
+            new Redirect(array('message' => 'Tunnuksesi on suljettu'));
         } else {
             // login failed, redirect to login form with an error
-            header('location:' . BASEURL . '?action=login&message=Väärä käyttäjänimi tai salasana');
-            die;
+            new Redirect(array('action' => 'login', 'message' => 'Väärä käyttäjänimi tai salasana'));
         }
     }
 

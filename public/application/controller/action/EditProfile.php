@@ -3,6 +3,7 @@
 namespace application\controller\action;
 
 use application\controller\Formatter;
+use application\controller\Redirect;
 use application\controller\Request;
 use application\controller\Validator;
 use application\model\Database;
@@ -31,16 +32,14 @@ class EditProfile extends AbstractAction {
             // allow editing only if it's the user's own profile or the user is an admin
             $this->userID = $this->request->getGetData('id');
         } else {
-            header('location:' . BASEURL);
-            die;
+            new Redirect();
         }
 
         $this->profile = new ProfileModel($this->database, $this->userID);
         $this->profileInfo = $this->profile->getProfileInfo();
 
         if (!$this->profile->isValid()) {
-            header('location:' . BASEURL . '?message=Virheellinen käyttäjä');
-            die;
+            new Redirect(array('message' => 'Virheellinen käyttäjä'));
         }
 
         $email = $this->request->getPostData('email');
@@ -67,38 +66,32 @@ class EditProfile extends AbstractAction {
         if (is_numeric($age) && $age > 1 && $age <= 2147483647) {
             $this->profile->setAge($age);
         } else {
-            header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&message=Iän täytyy olla positiivinen kokonaisluku");
-            die;
+            new Redirect(array('action' => 'editprofile', 'id' => $this->userID, 'message' => 'Iän täytyy olla positiivinen kokonaisluku'));
         }
 
 
         if ($passwordOld == '' && $password1 == '' && $password2 == '') {
             // the user didn't want to change password
-            header('location:' . BASEURL . "?action=profile&id={$this->userID}&info=Profiili tallennettu");
-            die;
+            new Redirect(array('action' => 'profile', 'id' => $this->userID, 'info' => 'Profiili tallennettu'));
         }
 
         // the user wanted to change password
         if (!User::isCorrectPassword($this->database, $this->userID, $passwordOld)) {
-            header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&info=Profiili tallennettu&message=Vanha salasana on väärä");
-            die;
+            new Redirect(array('action' => 'editprofile', 'id' => $this->userID, 'info' => 'Profiili tallennettu', 'message' => 'Vanha salasana on väärä'));
         }
 
         if ($password1 !== $password2) {
-            header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&info=Profiili tallennettu&message=Salasanat eivät täsmää");
-            die;
+            new Redirect(array('action' => 'editprofile', 'id' => $this->userID, 'info' => 'Profiili tallennettu', 'message' => 'Salasanat eivät täsmää'));
         }
 
         if (!Validator::isValidPassword($password1)) {
-            header('location:' . BASEURL . "?action=editprofile&id={$this->userID}&info=Profiili tallennettu&message=Salasanan tulee olla yli 5 ja alle 500 merkkiä pitkä");
-            die;
+            new Redirect(array('action' => 'editprofile', 'id' => $this->userID, 'info' => 'Profiili tallennettu', 'message' => 'Salasanan tulee olla yli 5 ja alle 500 merkkiä pitkä'));
         }
 
         // ok, change password
         User::setPassword($this->database, $this->userID, $password1);
 
-        header('location:' . BASEURL . "?action=profile&id={$this->userID}&info=Profiili tallennettu ja salasana vaihdettu");
-        die;
+        new Redirect(array('action' => 'profile', 'id' => $this->userID, 'info' => 'Profiili tallennettu ja salasana vaihdettu'));
     }
 
     public function setVars() {

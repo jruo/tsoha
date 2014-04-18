@@ -3,6 +3,7 @@
 namespace application\controller\action;
 
 use application\controller\Formatter;
+use application\controller\Redirect;
 use application\controller\Request;
 use application\model\Database;
 use application\model\Profile as ProfileModel;
@@ -34,8 +35,7 @@ class Profile extends AbstractAction {
         $this->profileInfo = $profile->getProfileInfo();
 
         if (!$profile->isValid()) {
-            header('location:' . BASEURL . '?message=Virheellinen käyttäjä');
-            die;
+            new Redirect(array('message' => 'Virheellinen käyttäjä'));
         }
     }
 

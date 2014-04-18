@@ -2,6 +2,7 @@
 
 namespace application\controller\action;
 
+use application\controller\Redirect;
 use application\controller\Request;
 use application\model\User;
 use application\view\Renderer;
@@ -62,12 +63,13 @@ class ActionHandler {
     public function executeRequestedAction() {
         $action = $this->getRequestedAction();
         $action->setRenderer($this->renderer);
-        
+
         if ($action->requireLogin() && !$this->user->isLoggedIn()) {
             // The user is not logged in, but the requested actions requires that
-            $baseURL = BASEURL;
-            header("location:{$baseURL}?action=login&message=Tämä toiminto vaatii kirjautumisen");
-            die;
+            new Redirect(array(
+                'action' => 'login',
+                'message' => 'Tämä toiminto vaatii kirjautumisen'
+            ));
         }
         $this->getRequestedAction()->excute();
     }

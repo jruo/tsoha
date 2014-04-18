@@ -3,6 +3,7 @@
 namespace application\controller\action;
 
 use application\controller\Formatter;
+use application\controller\Redirect;
 use application\controller\Request;
 use application\model\Database;
 use application\model\SearchResultLoader;
@@ -33,8 +34,7 @@ class Search extends AbstractAction {
         }
 
         if (empty($query) && ($timeSelect == 'none' || empty($timeInput)) && empty($username)) {
-            header('location:' . BASEURL . '?action=search&message=Anna jokin hakuehto');
-            die;
+            new Redirect(array('action' => 'search', 'message' => 'Anna hakuehto'));
         }
 
         $search = new SearchResultLoader($this->database);
@@ -46,8 +46,7 @@ class Search extends AbstractAction {
         if ($timeSelect != 'none' && !empty($timeInput)) {
             $time = strtotime($timeInput);
             if (!$time) {
-                header('location:' . BASEURL . '?action=search&message=Aika on väärässä formaatissa. Oikea formaatti on YYYY-MM-DD hh:mm:ss');
-                die;
+                new Redirect(array('action' => 'search', 'message' => 'Aika on väärässä formaatissa. Oikea formaatti on YYYY-MM-SS hh:mm:ss'));
             }
             $search->addTimeFilter($time, $timeSelect == 'after');
         }
