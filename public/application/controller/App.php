@@ -72,8 +72,8 @@ class App {
         $this->actionHandler->addAction('register', new Register($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('profile', new Profile($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('newpost', new NewPost($this->database, $this->request, $this->user));
+        $this->actionHandler->addAction('search', new Search($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('topic', new Topic($this->database, $this->request, $this->user));
-        $this->actionHandler->addAction('search', new Search($this->database, $this->request));
         $this->actionHandler->addAction('login', new Login($this->request, $this->user));
         $this->actionHandler->addAction('admin', new AdminPanel($this->user));
         $this->actionHandler->addAction('logout', new Logout($this->user));

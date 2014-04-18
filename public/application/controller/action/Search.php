@@ -7,6 +7,7 @@ use application\controller\Redirect;
 use application\controller\Request;
 use application\model\Database;
 use application\model\SearchResultLoader;
+use application\model\User;
 
 defined('INDEX') or die;
 
@@ -14,12 +15,14 @@ class Search extends AbstractAction {
 
     private $database;
     private $request;
+    private $user;
     private $posts;
     private $hasResults;
 
-    function __construct(Database $database, Request $request) {
+    function __construct(Database $database, Request $request, User $user) {
         $this->database = $database;
         $this->request = $request;
+        $this->user = $user;
     }
 
     public function excute() {
@@ -37,7 +40,7 @@ class Search extends AbstractAction {
             new Redirect(array('action' => 'search', 'message' => 'Anna hakuehto'));
         }
 
-        $search = new SearchResultLoader($this->database);
+        $search = new SearchResultLoader($this->database, $this->user);
 
         if (!empty($query)) {
             $query = str_replace('%', '[%]', str_replace('_', '[_]', str_replace('[', '[[]', $query)));
