@@ -1,11 +1,9 @@
 insert into Member (username, password, salt) values ('Matti Meikäläinen', '7f4f43dd926273c755ddda392176351dac037fbc412dcabb6e1c484d751e97f4', '3114992e30462844cedfe79fef3042499597b9212a79b47176d7dabe09a1abec');
 insert into Member (username, password, salt) values ('Maija Meikäläinen', 'ea8f711a400710d537082d6b374b8207f0fa748884d993eb5e5d67c70740b2d2', 'ecce9117785a281368f4ac162f3b8a20df20e0fb3284ea6834b44145d039e624');
 
-insert into MemberOfGroup values (1, 0);
 insert into MemberOfGroup values (2, 0);
 insert into MemberOfGroup values (3, 0);
 
-insert into MemberInfo (memberID, timeRegistered, email, realName, age, gender) values (1, 1396099080, 'admin@example.com', 'Ad Min', 20, 1);
 insert into MemberInfo (memberID, timeRegistered, email, realName, age, gender) values (2, 1396099400, 'mmeikalainen@example.com', 'Matti Meikäläinen', 24, 1);
 insert into MemberInfo (memberID, timeRegistered, email, realName, age, gender) values (3, 1396099401, 'maij.meika@example.com', 'Maija Meikäläinen', 23, 0);
 

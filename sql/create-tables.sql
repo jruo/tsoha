@@ -60,3 +60,5 @@ create table MemberOfGroup (
 
 insert into MemberGroup values (0, 'Kaikki jäsenet');
 insert into Member (username, password, salt, admin) values ('admin', '9c6f98e2346f1b937ae1fab637dac7316ef87b4b8e718896ed6bb84576eb9f2d', '36d5d17640fc0336e0af2014afb23a91e4bc5032937ae1c3e8a6956aa04ec0eb', 1);
+insert into MemberOfGroup values (1, 0);
+insert into MemberInfo (memberID, timeRegistered) select 1, extract(epoch FROM now());
