@@ -59,7 +59,9 @@
                     <small><?php echo $post['timeSent']; ?></small><br/>
                     <a href="<?php echo BASEURL . "?action=profile&id={$post['memberID']}"; ?>"><?php echo $post['username']; ?></a>
                 </div>
-                <?php echo $post['content']; ?>
+                <div class="col-sm-10">
+                    <?php echo $post['content']; ?>
+                </div>
             </div>
         </div>
     <?php endforeach; ?>
