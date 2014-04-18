@@ -31,7 +31,6 @@ SQL;
         $results = $database->query($query, $params);
 
         return MemberGroup::createArrayFromDatabase($results);
-//        return self::parseGroups($results);
     }
 
     /**
@@ -55,7 +54,6 @@ SQL;
         $results = $database->query($query, $params);
 
         return MemberGroup::createArrayFromDatabase($results);
-//        return self::parseGroups($results);
     }
 
     /**
@@ -99,6 +97,25 @@ SQL;
     }
 
     /**
+     * Returns all users that belong to the given group
+     * @param Database $database
+     * @param int $groupID
+     * @return array
+     */
+    public static function getGroupUsers(Database $database, $groupID) {
+        $query = <<<SQL
+        select member.memberid, username
+        from memberofgroup, member
+        where memberofgroup.memberid=member.memberid
+        and memberofgroup.membergroupid=?;
+SQL;
+        $params = array($groupID);
+        $results = $database->query($query, $params);
+
+        return MemberGroupMember::createArrayFromDatabase($results);
+    }
+
+    /**
      *
      * @param Database $database
      * @param string $groupID
@@ -125,15 +142,4 @@ SQL;
         return $database->querySucceeded();
     }
 
-//    private static function parseGroups($rows) {
-//        $groups = array();
-//        foreach ($rows as $row) {
-//            $group = array(
-//                'id' => $row['membergroupid'],
-//                'name' => $row['groupname']
-//            );
-//            $groups[] = $group;
-//        }
-//        return $groups;
-//    }
 }

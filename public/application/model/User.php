@@ -224,6 +224,23 @@ class User {
     }
 
     /**
+     * Converts the given username to userID
+     * @param Database $database
+     * @param string $username
+     * @return null|int
+     */
+    public static function usernameToID(Database $database, $username) {
+        $query = 'select memberid from member where username=?;';
+        $params = array($username);
+        $results = $database->query($query, $params);
+        if (count($results) == 0) {
+            return null;
+        } else {
+            return $results[0]['memberid'];
+        }
+    }
+
+    /**
      * Sets the session values
      * @param string $username
      * @param string $userid

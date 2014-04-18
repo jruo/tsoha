@@ -3,6 +3,7 @@
 namespace application\controller;
 
 use application\controller\action\ActionHandler;
+use application\controller\action\AdminEditMemberGroupMembers;
 use application\controller\action\AdminEditMemberGroups;
 use application\controller\action\AdminEditMembers;
 use application\controller\action\AdminPanel;
@@ -61,6 +62,7 @@ class App {
         $this->actionHandler->setDefaultAction(new TopicList($this->database, $this->user));
         $this->actionHandler->setErrorAction(new InvalidAction());
 
+        $this->actionHandler->addAction('admineditmembergroupmembers', new AdminEditMemberGroupMembers($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('admineditmembergroups', new AdminEditMemberGroups($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('admineditmembers', new AdminEditMembers($this->database, $this->request, $this->user));
         $this->actionHandler->addAction('editprofile', new EditProfile($this->database, $this->request, $this->user));
