@@ -95,16 +95,15 @@ class EditProfile extends AbstractAction {
     }
 
     public function setVars() {
-        $profileInfo = $this->profileInfo->asArray();
         $this->renderer->addVar('userID', $this->userID);
-        $this->renderer->addVar('email', Formatter::escapeText($profileInfo['email']));
-        $this->renderer->addVar('realName', Formatter::escapeText($profileInfo['realName']));
-        $this->renderer->addVar('gender', $profileInfo['gender']);
-        $this->renderer->addVar('age', $profileInfo['age']);
+        $this->renderer->addVar('email', Formatter::escapeText($this->profileInfo->getEmail()));
+        $this->renderer->addVar('realName', Formatter::escapeText($this->profileInfo->getRealName()));
+        $this->renderer->addVar('gender', $this->profileInfo->getGender());
+        $this->renderer->addVar('age', $this->profileInfo->getAge());
     }
 
     public function getTitle() {
-        return 'Muokkaa profiilia';
+        return 'Muokkaa profiilia ' . $this->profileInfo->getUsername();
     }
 
     public function getView() {

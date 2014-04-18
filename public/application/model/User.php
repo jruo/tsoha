@@ -134,7 +134,7 @@ class User {
         $database->query($query, $params);
 
         // add the user to the default user group
-        MemberGroup::addUserToGroup($database, 0, $userID);
+        MemberGroups::addUserToGroup($database, 0, $userID);
 
         return $database->querySucceeded();
     }

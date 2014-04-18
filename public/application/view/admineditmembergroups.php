@@ -27,7 +27,7 @@
                     </form>
                 </td>
                 <td>
-                    ?
+                    <?php echo $memberGroup['memberCount']; ?>
                 </td>
                 <td>
                     <a href="javascript:showRenameGroup(<?php echo $memberGroup['id']; ?>)" style="color:black"><span class="glyphicon glyphicon-edit"></span></a>

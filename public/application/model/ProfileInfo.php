@@ -36,4 +36,32 @@ class ProfileInfo extends DatabaseObject {
         $this->age = $array['age'];
     }
 
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getTimeRegistered() {
+        return $this->timeRegistered;
+    }
+
+    public function getPostCount() {
+        return $this->postCount;
+    }
+
+    public function getEmail() {
+        return $this->email;
+    }
+
+    public function getRealName() {
+        return $this->realName;
+    }
+
+    public function getGender() {
+        return $this->gender;
+    }
+
+    public function getAge() {
+        return $this->age;
+    }
+
 }

@@ -6,7 +6,7 @@ use application\controller\Redirect;
 use application\controller\Request;
 use application\controller\Validator;
 use application\model\Database;
-use application\model\MemberGroup;
+use application\model\MemberGroups;
 use application\model\User;
 
 defined('INDEX') or die;
@@ -16,7 +16,7 @@ class AdminEditMemberGroups extends AbstractAction {
     private $database;
     private $request;
     private $user;
-    private $memberGroups;
+    private $memberGroups = array();
 
     function __construct(Database $database, Request $request, User $user) {
         $this->database = $database;
@@ -34,20 +34,23 @@ class AdminEditMemberGroups extends AbstractAction {
         $groupID = $this->request->getGetData('groupid');
 
         if (!isset($option)) {
-            $this->memberGroups = MemberGroup::getGroups($this->database);
+            $memberGroups = MemberGroups::getGroups($this->database);
+            foreach ($memberGroups as $group) {
+                $this->memberGroups[] = $group->asArray();
+            }
             return;
         }
         switch ($option) {
             case 'delete':
                 if ($groupID != 0) {
-                    MemberGroup::removeGroup($this->database, $groupID);
+                    MemberGroups::removeGroup($this->database, $groupID);
                     new Redirect(array('action' => 'admineditmembergroups', 'info' => 'Ryhmä poistettu'));
                 } else {
                     new Redirect(array('action' => 'admineditmembergroups', 'message' => 'Oletusryhmää ei voi poistaa'));
                 }
                 break;
             case 'create':
-                if (MemberGroup::addGroup($this->database, $value)) {
+                if (MemberGroups::addGroup($this->database, $value)) {
                     new Redirect(array('action' => 'admineditmembergroups', 'info' => 'Ryhmä luotu'));
                 } else {
                     new Redirect(array('action' => 'admineditmembergroups', 'message' => 'Ryhmän luonti epäonnistui'));
@@ -56,7 +59,7 @@ class AdminEditMemberGroups extends AbstractAction {
             case 'rename':
                 if ($groupID != 0) {
                     if (Validator::isValidMemberGroupName($value)) {
-                        if (MemberGroup::renameGroup($this->database, $groupID, $value)) {
+                        if (MemberGroups::renameGroup($this->database, $groupID, $value)) {
                             new Redirect(array('action' => 'admineditmembergroups', 'info' => 'Ryhmä uudelleennimetty'));
                         } else {
                             new Redirect(array('action' => 'admineditmembergroups', 'message' => 'Uudelleennimeäminen ei onnistunut'));
@@ -74,6 +77,7 @@ class AdminEditMemberGroups extends AbstractAction {
     }
 
     public function setVars() {
+        // no need to escape, Validator checks inputs
         $this->renderer->addVar('memberGroups', $this->memberGroups);
     }
 

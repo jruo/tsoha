@@ -27,4 +27,20 @@ class AdminMemberListEntry extends DatabaseObject {
         $this->disabled = $array['disabled'];
     }
 
+    public function getUserID() {
+        return $this->userID;
+    }
+
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getAdmin() {
+        return $this->admin;
+    }
+
+    public function getDisabled() {
+        return $this->disabled;
+    }
+
 }

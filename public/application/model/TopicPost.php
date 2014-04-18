@@ -45,4 +45,40 @@ class TopicPost extends DatabaseObject {
         $this->read = isset($array['read']) ? $array['read'] : null;
     }
 
+    public function getTopicID() {
+        return $this->topicID;
+    }
+
+    public function getPostID() {
+        return $this->postID;
+    }
+
+    public function getPostNumber() {
+        return $this->postNumber;
+    }
+
+    public function getReplyToNumber() {
+        return $this->replyToNumber;
+    }
+
+    public function getUserID() {
+        return $this->userID;
+    }
+
+    public function getUsername() {
+        return $this->username;
+    }
+
+    public function getContent() {
+        return $this->content;
+    }
+
+    public function getTimeSent() {
+        return $this->timeSent;
+    }
+
+    public function getRead() {
+        return $this->read;
+    }
+
 }

@@ -6,7 +6,7 @@ use application\controller\Redirect;
 use application\controller\Request;
 use application\controller\Validator;
 use application\model\Database;
-use application\model\MemberGroup;
+use application\model\MemberGroups;
 use application\model\Topic;
 use application\model\User;
 
@@ -17,7 +17,7 @@ class NewTopic extends AbstractAction {
     private $database;
     private $request;
     private $user;
-    private $memberGroups;
+    private $memberGroups = array();
 
     function __construct(Database $database, Request $request, User $user) {
         $this->database = $database;
@@ -28,9 +28,13 @@ class NewTopic extends AbstractAction {
     public function excute() {
         // which groups the user has access to
         if ($this->user->isAdmin()) {
-            $this->memberGroups = MemberGroup::getGroups($this->database);
+            $tempGroups = MemberGroups::getGroups($this->database);
         } else {
-            $this->memberGroups = MemberGroup::getUsersGroups($this->database, $this->user->getUserID());
+            $tempGroups = MemberGroups::getUsersGroups($this->database, $this->user->getUserID());
+        }
+
+        foreach ($tempGroups as $tempGroup) {
+            $this->memberGroups[] = $tempGroup->asArray();
         }
 
         $topicTitle = $this->request->getPostData('title');
@@ -47,11 +51,12 @@ class NewTopic extends AbstractAction {
         $topic = null;
         if ($visibilityPublic != '1') {
             // find out which membergroups the user selected
-            $allGroups = MemberGroup::getGroups($this->database);
+            $allGroups = MemberGroups::getGroups($this->database);
+
             $visibilityGroups = array();
             foreach ($allGroups as $group) {
-                $visibility = $this->request->getPostData("visibility-{$group['id']}");
-                if ($visibility == '1' && in_array($group, $this->memberGroups)) {
+                $visibility = $this->request->getPostData("visibility-{$group->getID()}");
+                if ($visibility == '1' && in_array($group->asArray(), $this->memberGroups)) {
                     $visibilityGroups[] = $group;
                 }
             }
@@ -63,7 +68,7 @@ class NewTopic extends AbstractAction {
                 $this->testPostValidity($topicTitle, $topicContent);
                 $topic = Topic::create($this->database, $this->user, $topicTitle, $topicContent, 0);
                 foreach ($visibilityGroups as $group) {
-                    $topic->giveAccessToGroup($group['id']);
+                    $topic->giveAccessToGroup($group->getID());
                 }
             }
         } else {

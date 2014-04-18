@@ -40,8 +40,7 @@ class Profile extends AbstractAction {
     }
 
     public function setVars() {
-        $profileInfo = $this->profileInfo->asArray();
-        switch ($profileInfo['gender']) {
+        switch ($this->profileInfo->getGender()) {
             case '1':
                 $gender = 'Mies';
                 break;
@@ -52,12 +51,12 @@ class Profile extends AbstractAction {
                 $gender = null;
                 break;
         }
-        $this->renderer->addVar('timeRegistered', Formatter::formatTime($profileInfo['timeRegistered']));
-        $this->renderer->addVar('postCount', $profileInfo['postCount']);
-        $this->renderer->addVar('email', Formatter::escapeText($profileInfo['email']));
-        $this->renderer->addVar('realName', Formatter::escapeText($profileInfo['realName']));
+        $this->renderer->addVar('timeRegistered', Formatter::formatTime($this->profileInfo->getTimeRegistered()));
+        $this->renderer->addVar('postCount', $this->profileInfo->getPostCount());
+        $this->renderer->addVar('email', Formatter::escapeText($this->profileInfo->getEmail()));
+        $this->renderer->addVar('realName', Formatter::escapeText($this->profileInfo->getRealName()));
         $this->renderer->addVar('gender', $gender);
-        $this->renderer->addVar('age', $profileInfo['age']);
+        $this->renderer->addVar('age', $this->profileInfo->getAge());
         $this->renderer->addVar('userID', $this->userID);
         $this->renderer->addVar('canEdit', $this->userID == $this->user->getUserID() || $this->user->isAdmin());
     }
@@ -67,8 +66,7 @@ class Profile extends AbstractAction {
     }
 
     public function getTitle() {
-        $profileInfo = $this->profileInfo->asArray();
-        return 'Käyttäjä ' . $profileInfo['username'];
+        return 'Käyttäjä ' . $this->profileInfo->getUsername();
     }
 
     public function requireLogin() {

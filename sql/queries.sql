@@ -255,3 +255,37 @@ where topicid in (
     ) as topicpostcount
     where postcount=0
 );
+
+/*
+ * HAE JÄSENRYHMIEN JÄSENMÄÄRÄT
+ */
+ 
+select membergroup.groupname, membergroup.membergroupid, membercount.membercount
+from membergroup
+left join (
+    select count(membergroupid) as membercount, membergroupid
+    from memberofgroup
+    group by membergroupid
+) as membercount
+on membergroup.membergroupid=membercount.membergroupid
+order by membergroup.membergroupid asc;
+
+
+
+/*
+ * HAE KÄYTTÄJÄN RYHMÄT JA NIIDEN JÄSENMÄÄRÄT
+ */
+ 
+ 
+select      membergroup.membergroupid, membergroup.groupname, membercount.membercount
+from        membergroup
+inner join  memberofgroup
+    on      membergroup.membergroupid=memberofgroup.membergroupid
+        and memberid=1
+left join (
+            select count(membergroupid) as membercount, membergroupid
+            from memberofgroup
+            group by membergroupid
+) as membercount
+    on      membergroup.membergroupid=membercount.membergroupid
+order by    membergroupid asc
