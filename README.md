@@ -14,7 +14,10 @@ Tietokantasovellus
 
 ### Kirjautumistunnukset
 Ylläpitäjän tunnus (tunnus, salasana):
-admin, admin
+    admin, admin
 
-Tavallisen käyttäjän tunnus:
-Matti Meikäläinen, SalainenSana
+Tavallisen käyttäjien tunnuksia:
+    Matti Meikäläinen, SalainenSana
+    Maija Meikäläinen, SalainenSana
+    Ville91, JokuSalasana
+    Trolli69, JokuSalasana    (porttikiellossa)
